@@ -45,3 +45,22 @@ function renderQuestions(data) {
 }
 
 initApp();
+async function loadData() {
+    const response = await fetch('data/all.json');
+    const data = await response.json();
+    const list = document.getElementById('questions-list');
+
+    list.innerHTML = data.map(q => `
+        <article class="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-500 transition-all" 
+                 itemscope itemtype="https://schema.org/Question">
+            <h2 class="text-lg font-bold text-blue-800 mb-2" itemprop="name">
+                <a href="${q.url}">${q.title}</a>
+            </h2>
+            <div class="flex flex-wrap gap-2 mb-3">
+                ${q.tags.map(tag => `<span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px]">${tag}</span>`).join('')}
+            </div>
+            <meta itemprop="text" content="${q.title}">
+        </article>
+    `).join('');
+}
+loadData();
