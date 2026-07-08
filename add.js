@@ -1,28 +1,36 @@
-
 let allQuestions = [];
 
 async function initApp() {
-    // يمكنك إضافة ملفات JSON هنا
+    // قائمة بملفات JSON الموجودة داخل المجلد
+    const files = ['general.json', 'islamic.json', 'science.json'];
+    
     try {
-        const response = await fetch('data.json'); 
-        allQuestions = await response.json();
+        // جلب جميع الملفات بالتوازي
+        const promises = files.map(file => fetch(`data/${file}`).then(res => res.json()));
+        const results = await Promise.all(promises);
+        
+        // دمج النتائج في مصفوفة واحدة
+        allQuestions = results.flat();
+        
         renderQuestions(allQuestions);
     } catch (e) {
-        console.error("خطأ في تحميل البيانات:", e);
+        console.error("خطأ في تحميل البيانات من المجلد:", e);
     }
 }
 
 function renderQuestions(data) {
     const list = document.getElementById('questions-list');
+    if (!data.length) {
+        list.innerHTML = "<p class='text-center p-10'>لا توجد أسئلة حالياً.</p>";
+        return;
+    }
+
     list.innerHTML = data.map(q => `
         <article class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex gap-4 hover:border-blue-400 transition-all">
-            <!-- العدادات -->
             <div class="flex flex-col items-center gap-1 shrink-0 w-16">
-                <div class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold w-full text-center">${q.votes || 0}</div>
-                <div class="bg-green-600 text-white px-3 py-1 rounded text-xs font-bold w-full text-center">${q.answers || 1}</div>
+                <div class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold w-full text-center">${q.votes}</div>
+                <div class="bg-green-600 text-white px-3 py-1 rounded text-xs font-bold w-full text-center">${q.answers}</div>
             </div>
-            
-            <!-- السؤال -->
             <div class="flex-1">
                 <h2 class="text-blue-700 font-bold mb-2 hover:underline">
                     <a href="${q.url}">${q.title}</a>
@@ -35,11 +43,5 @@ function renderQuestions(data) {
         </article>
     `).join('');
 }
-
-// البحث
-document.getElementById('search-input').addEventListener('input', (e) => {
-    const filtered = allQuestions.filter(q => q.title.includes(e.target.value));
-    renderQuestions(filtered);
-});
 
 initApp();
