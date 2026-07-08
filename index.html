@@ -1,61 +1,49 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيت العلم | أكبر موسوعة تعليمية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .card-shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-100 font-sans">
+<body class="bg-slate-50 text-slate-800">
 
-    <!-- Header -->
-    <header class="bg-[#2D4E67] text-white p-4 shadow-md">
+    <!-- الهيدر -->
+    <header class="bg-[#2D4E67] text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">بيت العلم</h1>
-            <nav class="flex gap-4 text-sm">
-                <a href="#">الأسئلة</a>
-                <a href="#">الوسوم</a>
+            <h1 class="text-2xl font-black">بيت العلم</h1>
+            <nav class="flex gap-6 text-sm font-bold">
+                <a href="#" class="hover:text-blue-200">الأسئلة</a>
+                <a href="#" class="hover:text-blue-200">الوسوم</a>
             </nav>
         </div>
     </header>
 
-    <div class="max-w-6xl mx-auto p-4 flex gap-6">
+    <div class="max-w-6xl mx-auto p-4 flex flex-col md:flex-row gap-6 mt-6">
         
-        <!-- Sidebar (يمين الشاشة) -->
-        <aside class="w-1/4 hidden md:block space-y-4">
-            <div class="bg-white p-4 rounded shadow-sm border border-slate-200">
-                <input type="text" placeholder="بحث..." class="w-full border p-2 rounded">
+        <!-- القائمة الجانبية -->
+        <aside class="w-full md:w-1/4 space-y-4">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                <input type="text" id="search-input" placeholder="ابحث عن سؤالك..." class="w-full p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
             </div>
-            <div class="bg-slate-800 text-white p-4 rounded text-sm leading-relaxed">
+            <div class="bg-slate-800 text-white p-5 rounded-xl text-sm leading-relaxed">
                 مرحباً بك في بيت العلم، حيث يمكنك طرح الأسئلة وانتظار الإجابة عليها من المستخدمين الآخرين.
             </div>
         </aside>
 
-        <!-- Main Content (يسار الشاشة) -->
+        <!-- المنطقة الرئيسية -->
         <main class="flex-1 space-y-4">
-            <div class="bg-blue-500 text-white p-3 rounded font-bold text-lg">آخر الأسئلة والإجابات</div>
-            
-            <!-- Question Item -->
-            <div class="bg-white p-4 rounded border border-slate-200 flex gap-4 card-shadow">
-                <!-- Stats Box -->
-                <div class="flex flex-col items-center bg-green-600 text-white p-2 rounded w-16 h-16 justify-center">
-                    <span class="text-xs">0 تصويت</span>
-                    <span class="text-xs bg-white text-green-600 px-1 rounded mt-1 font-bold">1 إجابة</span>
-                </div>
-                
-                <!-- Content -->
-                <div class="flex-1">
-                    <h2 class="text-blue-700 font-bold mb-2">ما حكم التمسح بالأشجار والأحجار مع اعتقاد أنها تجلب البركة؟</h2>
-                    <p class="text-xs text-slate-500 mb-2">تم الرد عليه منذ 5 ساعات في تصنيف حلول دراسية</p>
-                    <div class="flex flex-wrap gap-1">
-                        <span class="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded">حكم</span>
-                        <span class="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded">الأشجار</span>
-                    </div>
-                </div>
+            <div class="bg-blue-600 text-white p-3 rounded-lg font-bold">آخر الأسئلة والإجابات</div>
+            <div id="questions-list" class="space-y-4">
+                <!-- سيتم ملء الأسئلة بواسطة JavaScript -->
             </div>
-            <!-- كرر هذا القسم للأسئلة الأخرى -->
         </main>
     </div>
+
+    <script src="add.js"></script>
 </body>
 </html>
