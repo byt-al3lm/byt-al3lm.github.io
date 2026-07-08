@@ -1,20 +1,17 @@
+
 [
   {
-    "title": "ما حكم التمسح بالأشجار والأحجار مع اعتقاد أنها تجلب البركة؟",
-    "url": "questions/islamic/1.html",
-    "time": "5 ساعات",
-    "category": "حلول دراسية",
-    "tags": ["حكم", "أشجار", "بركة"],
+    "title": "ما حكم التمسح بالأشجار؟",
+    "url": "questions/q1.html",
     "votes": 0,
-    "answers": 1
+    "answers": 1,
+    "tags": ["حكم", "إسلام"]
   },
   {
-    "title": "أي من الحالات التالية يعتبر مثالاً على الخوف الشركي؟",
-    "url": "questions/islamic/2.html",
-    "time": "5 ساعات",
-    "category": "حلول دراسية",
-    "tags": ["شرك", "خوف", "سر"],
-    "votes": 0,
-    "answers": 1
+    "title": "ما هي فوائد الصوم؟",
+    "url": "questions/q2.html",
+    "votes": 5,
+    "answers": 2,
+    "tags": ["صوم", "فوائد"]
   }
 ]
