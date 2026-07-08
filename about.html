@@ -1,20 +1,37 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>عن بيت العلم | هدفنا المعرفة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عن بيت العلم | بيت العلم</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap'); body { font-family: 'Cairo', sans-serif; }</style>
 </head>
-<body class="bg-slate-50 min-h-screen">
-    <div class="max-w-4xl mx-auto p-8 bg-white mt-10 rounded-2xl shadow-sm border border-slate-100">
-        <h1 class="text-3xl font-black text-[#2D4E67] mb-6 border-b pb-4">عن بيت العلم</h1>
-        <div class="prose text-slate-700 leading-8">
-            <p class="mb-4">مرحباً بك في <strong>بيت العلم</strong>، المنصة التعليمية الرائدة التي تهدف إلى توفير محتوى عربي موثوق ومبسط للطلاب والباحثين عن المعرفة.</p>
-            <p class="mb-4">نحن نؤمن بأن العلم حق للجميع، لذا نعمل على توفير إجابات دقيقة ومباشرة على كافة الأسئلة التي تشغل بال مستخدمينا في مختلف المجالات الدراسية والعلمية.</p>
-            <h3 class="text-xl font-bold mt-6 mb-2">رؤيتنا:</h3>
-            <p>أن نصبح المرجع الأول لكل طالب عربي يبحث عن المعلومة الصحيحة بطريقة سهلة وسريعة بعيداً عن التعقيد.</p>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <header class="bg-[#2D4E67] text-white p-4 shadow-lg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-black">بيت العلم</h1>
+            <nav class="flex gap-6 text-sm font-bold">
+                <a href="index.html" class="hover:text-blue-200">الرئيسية</a>
+                <a href="about.html" class="text-blue-200">عن الموقع</a>
+                <a href="privacy.html" class="hover:text-blue-200">سياسة الخصوصية</a>
+            </nav>
         </div>
-        <a href="index.html" class="inline-block mt-8 text-blue-600 font-bold hover:underline">← العودة للرئيسية</a>
-    </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl mx-auto w-full p-6 mt-8">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <h1 class="text-3xl font-black text-[#2D4E67] mb-6 border-b pb-4">عن بيت العلم</h1>
+            <div class="space-y-4 leading-9 text-slate-700">
+                <p>مرحباً بك في <strong>بيت العلم</strong>، المنصة العربية الرائدة التي تهدف إلى تبسيط المعرفة وتوفير الحلول الدراسية الموثوقة.</p>
+                <p>نحن نؤمن بأن الوصول للمعلومة الصحيحة يجب أن يكون متاحاً وسهلاً لكل طالب وباحث عن المعرفة. لذا، قمنا بتصميم هذه المنصة لتكون دليلك الأول في رحلتك التعليمية.</p>
+                <h2 class="text-xl font-bold text-[#2D4E67] pt-4">رؤيتنا</h2>
+                <p>أن نصبح أكبر قاعدة بيانات للأسئلة والأجوبة التعليمية في الوطن العربي، مع الالتزام بالدقة العلمية والموضوعية.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t mt-12 p-6 text-center text-slate-500 text-sm">جميع الحقوق محفوظة لبيت العلم © 2024</footer>
 </body>
 </html>
