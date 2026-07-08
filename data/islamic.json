@@ -1,17 +1,10 @@
-
-[
-  {
-    "title": "ما حكم التمسح بالأشجار؟",
-    "url": "questions/q1.html",
-    "votes": 0,
-    "answers": 1,
-    "tags": ["حكم", "إسلام"]
-  },
-  {
-    "title": "ما هي فوائد الصوم؟",
-    "url": "questions/q2.html",
-    "votes": 5,
-    "answers": 2,
-    "tags": ["صوم", "فوائد"]
-  }
-]
+ [
+      {
+        "title": "ما حكم التمسح بالأشجار؟",
+        "url": "#",
+        "votes": 0,
+        "answers": 1,
+        "category": "عام",
+        "tags": ["حكم", "دين"]
+      }
+    ]
