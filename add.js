@@ -1,20 +1,19 @@
-
 /**
- * نظام "بيت العلم" - الإصدار النهائي المطور
- * مخصص لإدارة آلاف الأسئلة وتصحيح المسارات تلقائياً
+ * محرك "بيت العلم" - الإصدار الاحترافي المتكامل
+ * المزايا: تمرير لانهائي، إصلاح مسارات تلقائي، دعم 10,000+ سؤال
  */
 
-// --- الإعدادات العامة ---
+// --- 1. الإعدادات العامة ---
 let allQuestions = [];
 let activeCategory = 'all';
 let searchTerm = '';
-const itemsPerPage = 15; 
 let currentPage = 1;
+const itemsPerPage = 15; // عدد الأسئلة التي تظهر في كل مرة عند التمرير
 
-// 1. ملفات البيانات (تأكد من وجودها في مجلد data)
+// أسماء ملفات البيانات في مجلد /data/
 const DATA_FILES = ['general.json']; 
 
-// كشف موقع الصفحة الحالي
+// كشف موقع الصفحة الحالي لتحديد المسارات
 const isInsideQuestions = window.location.pathname.includes('/questions/');
 const baseDataPath = isInsideQuestions ? '../data/' : 'data/';
 const baseArticlePath = isInsideQuestions ? '' : 'questions/';
@@ -27,6 +26,7 @@ const selectors = {
     statsCount: null
 };
 
+// --- 2. تهيئة العناصر ---
 function initSelectors() {
     selectors.questionsList = document.getElementById('questions-list');
     selectors.categoriesFilter = document.getElementById('categories-filter');
@@ -35,77 +35,81 @@ function initSelectors() {
     selectors.statsCount = document.getElementById('stats-count');
 }
 
-// --- دالة إصلاح الروابط (الرئيسية، عن الموقع، الخصوصية) ---
+// --- 3. إصلاح الروابط الثابتة تلقائياً ---
+// يقوم بتحويل index.html إلى ../index.html إذا كنت داخل مجلد questions
 function fixNavigationLinks() {
     if (isInsideQuestions) {
-        console.log("إصلاح الروابط للعودة للمجلد الرئيسي...");
         const staticPages = ['index.html', 'about.html', 'privacy.html'];
-        
-        // البحث في كل روابط الصفحة بلا استثناء
         document.querySelectorAll('a').forEach(link => {
             const href = link.getAttribute('href');
             if (href && staticPages.includes(href)) {
-                // تحويل index.html إلى ../index.html
                 link.setAttribute('href', '../' + href);
             }
         });
     }
 }
 
-// --- جلب البيانات ---
+// --- 4. جلب ودمج البيانات من ملفات JSON ---
 async function loadDatabase() {
+    console.log("%c جاري تشغيل محرك بيت العلم... ", "color: white; background: #2d4e67; padding: 5px;");
+    
     try {
         const promises = DATA_FILES.map(async (fileName) => {
             const filePath = baseDataPath + fileName;
-            const response = await fetch(filePath);
-            if (!response.ok) return [];
-            const text = await response.text();
-            if (!text.trim()) return [];
-            return JSON.parse(text);
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) return [];
+                const text = await response.text();
+                if (!text.trim()) return [];
+                return JSON.parse(text);
+            } catch (err) {
+                console.error(`خطأ في قراءة الملف ${fileName}:`, err);
+                return [];
+            }
         });
 
         const results = await Promise.all(promises);
         allQuestions = results.flat();
         
-        if (selectors.statsCount) {
-            selectors.statsCount.innerText = allQuestions.length.toLocaleString();
-        }
-
+        if (selectors.statsCount) selectors.statsCount.innerText = allQuestions.length.toLocaleString();
+        
+        // البدء في العرض
         if (selectors.questionsList) {
             setupCategories(allQuestions);
             renderQuestions();
         }
         
-        if (isInsideQuestions) {
-            renderRelated();
-        }
-    } catch (err) {
-        console.error("فشل تحميل البيانات:", err);
+        if (isInsideQuestions) renderRelated();
+
+    } catch (globalErr) {
+        console.error("فشل تحميل قاعدة البيانات:", globalErr);
     }
 }
 
-// --- عرض الأسئلة ---
+// --- 5. عرض الأسئلة مع التمرير اللانهائي ---
 function renderQuestions() {
     if (!selectors.questionsList) return;
 
     const filtered = allQuestions.filter(q => {
-        const titleMatch = (q.title || "").toLowerCase().includes(searchTerm);
-        const catMatch = activeCategory === 'all' || (q.category || "").toLowerCase() === activeCategory;
-        return titleMatch && catMatch;
+        const titleText = (q.title || "").toLowerCase();
+        const matchesSearch = titleText.includes(searchTerm);
+        const matchesCategory = activeCategory === 'all' || (q.category || "").toLowerCase() === activeCategory;
+        return matchesSearch && matchesCategory;
     });
 
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
 
-    selectors.questionsList.innerHTML = paginated.map(q => `
-        <article class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex gap-4 mb-4">
+    // بناء محتوى HTML
+    const htmlContent = paginated.map(q => `
+        <article class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex gap-4 mb-4 hover:border-blue-400 transition-all">
             <div class="hidden sm:flex flex-col items-center gap-1 shrink-0 w-16 text-center">
                 <span class="text-sm font-bold text-slate-700">${q.votes || 0}</span>
                 <span class="text-[10px] text-slate-400">تصويت</span>
                 <div class="bg-green-600 text-white px-2 py-1 rounded text-[10px] font-bold mt-1">1 إجابة</div>
             </div>
-            <div class="flex-grow">
+            <div class="flex-grow text-right">
                 <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-1 rounded-md">${q.category || 'عام'}</span>
-                <h2 class="text-lg font-bold text-blue-700 mt-2 mb-2 leading-tight">
+                <h2 class="text-lg font-bold text-blue-800 mt-2 mb-2 leading-tight">
                     <a href="${baseArticlePath}${q.url}">${q.title}</a>
                 </h2>
                 <div class="flex flex-wrap gap-2 mt-3">
@@ -114,9 +118,39 @@ function renderQuestions() {
             </div>
         </article>
     `).join('');
+
+    selectors.questionsList.innerHTML = htmlContent;
+
+    // إدارة التمرير اللانهائي
+    manageInfiniteScroll(filtered.length, paginated.length);
 }
 
-// --- الأسئلة المقترحة ---
+// --- 6. دالة التمرير اللانهائي (Intersection Observer) ---
+function manageInfiniteScroll(total, current) {
+    let loader = document.getElementById('infinite-loader');
+    
+    if (current < total) {
+        if (!loader) {
+            loader = document.createElement('div');
+            loader.id = 'infinite-loader';
+            loader.className = 'py-6 text-center text-slate-400 text-xs font-bold animate-pulse';
+            loader.innerText = 'جاري تحميل المزيد من الأسئلة...';
+            selectors.questionsList.after(loader);
+
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    currentPage++;
+                    renderQuestions();
+                }
+            }, { threshold: 0.1 });
+            observer.observe(loader);
+        }
+    } else {
+        if (loader) loader.remove();
+    }
+}
+
+// --- 7. الأسئلة المقترحة (لصفحة المقال) ---
 function renderRelated() {
     const relContainer = document.getElementById('related-questions');
     if (!relContainer) return;
@@ -128,8 +162,8 @@ function renderRelated() {
         .slice(0, 4);
 
     relContainer.innerHTML = `
-        <h4 class="text-sm font-bold text-slate-400 mb-4 border-r-4 border-blue-500 pr-3">أسئلة قد تهمك</h4>
-        <div class="grid sm:grid-cols-2 gap-3">
+        <h4 class="text-sm font-bold text-slate-400 mb-4 border-r-4 border-blue-500 pr-3 font-sans">أسئلة قد تهمك</h4>
+        <div class="grid sm:grid-cols-2 gap-3 text-right">
             ${related.map(q => `
                 <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-xl hover:border-blue-500 transition-all shadow-sm">
                     <span class="text-xs font-bold text-slate-700 leading-relaxed">${q.title}</span>
@@ -139,12 +173,12 @@ function renderRelated() {
     `;
 }
 
-// --- التصنيفات والبحث ---
+// --- 8. التصنيفات والبحث ---
 function setupCategories(data) {
     if (!selectors.categoriesFilter) return;
     const categories = ['all', ...new Set(data.map(q => q.category).filter(Boolean))];
     selectors.categoriesFilter.innerHTML = categories.map(c => `
-        <button onclick="filterCategory('${c}')" class="px-4 py-1.5 text-xs font-bold rounded-lg shrink-0 transition-all ${activeCategory === c.toLowerCase() ? 'bg-blue-600 text-white shadow-md' : 'bg-white border text-slate-500'}">
+        <button onclick="filterCategory('${c}')" class="px-4 py-1.5 text-xs font-bold rounded-lg shrink-0 transition-all ${activeCategory === c.toLowerCase() ? 'bg-blue-600 text-white shadow-md' : 'bg-white border text-slate-500 hover:bg-slate-50'}">
             ${c === 'all' ? 'الكل' : c}
         </button>
     `).join('');
@@ -152,20 +186,20 @@ function setupCategories(data) {
 
 window.filterCategory = function(c) {
     activeCategory = c.toLowerCase();
+    currentPage = 1; // العودة لأول صفحة عند تغيير التصنيف
     renderQuestions();
     setupCategories(allQuestions);
 };
 
-// --- التشغيل عند التحميل ---
+// --- 9. تشغيل التطبيق ---
 document.addEventListener("DOMContentLoaded", () => {
     initSelectors();
     loadDatabase();
-    
-    // تصحيح الروابط فور تحميل الـ DOM
-    fixNavigationLinks();
+    fixNavigationLinks(); // تصحيح الروابط فوراً
 
     const searchHandler = (e) => {
         searchTerm = e.target.value.toLowerCase();
+        currentPage = 1;
         renderQuestions();
     };
 
