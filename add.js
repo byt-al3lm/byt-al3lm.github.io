@@ -1,32 +1,31 @@
+
 /**
- * نظام "بيت العلم" - المحرك الذكي الإصدار 3.0
- * مخصص لآلاف الأسئلة مع تصحيح تلقائي للمسارات
+ * نظام "بيت العلم" - الإصدار النهائي المطور
+ * مخصص لإدارة آلاف الأسئلة وتصحيح المسارات تلقائياً
  */
 
-// --- الإعدادات العامة وقاعدة البيانات ---
+// --- الإعدادات العامة ---
 let allQuestions = [];
 let activeCategory = 'all';
 let searchTerm = '';
 const itemsPerPage = 15; 
 let currentPage = 1;
 
-// 1. ضع هنا أسماء ملفاتك الموجودة داخل مجلد data
+// 1. ملفات البيانات (تأكد من وجودها في مجلد data)
 const DATA_FILES = ['general.json']; 
+
+// كشف موقع الصفحة الحالي
+const isInsideQuestions = window.location.pathname.includes('/questions/');
+const baseDataPath = isInsideQuestions ? '../data/' : 'data/';
+const baseArticlePath = isInsideQuestions ? '' : 'questions/';
 
 const selectors = {
     questionsList: null,
     categoriesFilter: null,
     searchDesktop: null,
     searchMobile: null,
-    statsCount: null,
-    scrollProgress: null
+    statsCount: null
 };
-
-// --- دالة فحص وتحديد المسارات ---
-// هذه الدالة تعرف إذا كنا داخل مجلد questions أم في الصفحة الرئيسية
-const isInsideQuestions = window.location.pathname.includes('/questions/');
-const baseDataPath = isInsideQuestions ? '../data/' : 'data/';
-const baseArticlePath = isInsideQuestions ? '' : 'questions/';
 
 function initSelectors() {
     selectors.questionsList = document.getElementById('questions-list');
@@ -34,75 +33,71 @@ function initSelectors() {
     selectors.searchDesktop = document.getElementById('search-input');
     selectors.searchMobile = document.getElementById('search-input-mobile');
     selectors.statsCount = document.getElementById('stats-count');
-    selectors.scrollProgress = document.getElementById('scroll-progress');
 }
 
-// --- تحميل البيانات مع معالجة الأخطاء (حل مشكلة SyntaxError) ---
-async function loadDatabase() {
-    console.log("%c جاري تحميل قاعدة بيانات بيت العلم... ", "color: white; background: #2d4e67; padding: 5px;");
+// --- دالة إصلاح الروابط (الرئيسية، عن الموقع، الخصوصية) ---
+function fixNavigationLinks() {
+    if (isInsideQuestions) {
+        console.log("إصلاح الروابط للعودة للمجلد الرئيسي...");
+        const staticPages = ['index.html', 'about.html', 'privacy.html'];
+        
+        // البحث في كل روابط الصفحة بلا استثناء
+        document.querySelectorAll('a').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && staticPages.includes(href)) {
+                // تحويل index.html إلى ../index.html
+                link.setAttribute('href', '../' + href);
+            }
+        });
+    }
+}
 
+// --- جلب البيانات ---
+async function loadDatabase() {
     try {
         const promises = DATA_FILES.map(async (fileName) => {
             const filePath = baseDataPath + fileName;
-            try {
-                const response = await fetch(filePath);
-                if (!response.ok) throw new Error(`الملف ${fileName} غير موجود (404)`);
-                
-                const text = await response.text();
-                if (!text.trim()) throw new Error(`الملف ${fileName} فارغ تماماً`);
-                
-                return JSON.parse(text);
-            } catch (err) {
-                console.error(`❌ خطأ في الملف [${fileName}]:`, err.message);
-                return []; // إرجاع مصفوفة فارغة لتجنب توقف الكود بالكامل
-            }
+            const response = await fetch(filePath);
+            if (!response.ok) return [];
+            const text = await response.text();
+            if (!text.trim()) return [];
+            return JSON.parse(text);
         });
 
         const results = await Promise.all(promises);
         allQuestions = results.flat();
         
-        console.log(`✅ تم تحميل ${allQuestions.length} سؤال بنجاح.`);
-
-        // تحديث الإحصائيات في الواجهة
         if (selectors.statsCount) {
             selectors.statsCount.innerText = allQuestions.length.toLocaleString();
         }
 
-        // تشغيل الوظائف بناءً على الصفحة الحالية
         if (selectors.questionsList) {
             setupCategories(allQuestions);
             renderQuestions();
         }
         
-        // تشغيل الأسئلة المقترحة إذا كنا داخل مقال
         if (isInsideQuestions) {
             renderRelated();
         }
-
-    } catch (globalErr) {
-        console.error("❌ فشل تحميل قاعدة البيانات بالكامل:", globalErr);
+    } catch (err) {
+        console.error("فشل تحميل البيانات:", err);
     }
 }
 
-// --- عرض قائمة الأسئلة (الصفحة الرئيسية) ---
+// --- عرض الأسئلة ---
 function renderQuestions() {
     if (!selectors.questionsList) return;
 
     const filtered = allQuestions.filter(q => {
         const titleMatch = (q.title || "").toLowerCase().includes(searchTerm);
-        const categoryMatch = activeCategory === 'all' || (q.category || "").toLowerCase() === activeCategory;
-        return titleMatch && categoryMatch;
+        const catMatch = activeCategory === 'all' || (q.category || "").toLowerCase() === activeCategory;
+        return titleMatch && catMatch;
     });
 
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
 
-    if (paginated.length === 0) {
-        selectors.questionsList.innerHTML = `<div class="p-10 text-center bg-white rounded-xl border">لا توجد نتائج تطابق بحثك..</div>`;
-        return;
-    }
-
     selectors.questionsList.innerHTML = paginated.map(q => `
-        <article class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex gap-4 hover:border-blue-400 transition-all mb-4">
+        <article class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex gap-4 mb-4">
             <div class="hidden sm:flex flex-col items-center gap-1 shrink-0 w-16 text-center">
                 <span class="text-sm font-bold text-slate-700">${q.votes || 0}</span>
                 <span class="text-[10px] text-slate-400">تصويت</span>
@@ -121,7 +116,7 @@ function renderQuestions() {
     `).join('');
 }
 
-// --- عرض الأسئلة المقترحة (داخل المقالات) ---
+// --- الأسئلة المقترحة ---
 function renderRelated() {
     const relContainer = document.getElementById('related-questions');
     if (!relContainer) return;
@@ -144,25 +139,12 @@ function renderRelated() {
     `;
 }
 
-// --- إصلاح الروابط تلقائياً (الرئيسية - عن الموقع - الخصوصية) ---
-function fixNavigationLinks() {
-    if (isInsideQuestions) {
-        const navLinks = document.querySelectorAll('header nav a, footer a, header a[href="index.html"]');
-        navLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && (href === 'index.html' || href === 'about.html' || href === 'privacy.html')) {
-                link.setAttribute('href', '../' + href);
-            }
-        });
-    }
-}
-
 // --- التصنيفات والبحث ---
 function setupCategories(data) {
     if (!selectors.categoriesFilter) return;
     const categories = ['all', ...new Set(data.map(q => q.category).filter(Boolean))];
     selectors.categoriesFilter.innerHTML = categories.map(c => `
-        <button onclick="filterCategory('${c}')" class="px-4 py-1.5 text-xs font-bold rounded-lg shrink-0 transition-all ${activeCategory === c.toLowerCase() ? 'bg-blue-600 text-white shadow-md' : 'bg-white border text-slate-500 hover:bg-slate-50'}">
+        <button onclick="filterCategory('${c}')" class="px-4 py-1.5 text-xs font-bold rounded-lg shrink-0 transition-all ${activeCategory === c.toLowerCase() ? 'bg-blue-600 text-white shadow-md' : 'bg-white border text-slate-500'}">
             ${c === 'all' ? 'الكل' : c}
         </button>
     `).join('');
@@ -174,29 +156,19 @@ window.filterCategory = function(c) {
     setupCategories(allQuestions);
 };
 
-// --- تشغيل النظام عند تحميل الصفحة ---
+// --- التشغيل عند التحميل ---
 document.addEventListener("DOMContentLoaded", () => {
     initSelectors();
     loadDatabase();
+    
+    // تصحيح الروابط فور تحميل الـ DOM
     fixNavigationLinks();
 
-    // تشغيل البحث
     const searchHandler = (e) => {
         searchTerm = e.target.value.toLowerCase();
-        currentPage = 1;
         renderQuestions();
     };
 
     selectors.searchDesktop?.addEventListener('input', searchHandler);
     selectors.searchMobile?.addEventListener('input', searchHandler);
-
-    // شريط تقدم القراءة (اختياري)
-    window.addEventListener('scroll', () => {
-        if (selectors.scrollProgress) {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            selectors.scrollProgress.style.width = scrolled + "%";
-        }
-    });
 });
