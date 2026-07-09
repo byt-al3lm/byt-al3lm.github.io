@@ -12,7 +12,7 @@ const itemsPerPage = 15;
 let currentPage = 1;
 
 // مصفوفة ملفات البيانات في مجلد /data/
-const DATA_FILES = ['data/general.json', 'data/islamic.json', 'data/science.json'];
+const DATA_FILES = ['data/tafsir-alahlam.json', 'data/islamic.json', 'data/science.json'];
 
 const selectors = {
     questionsList: null,
