@@ -1,6 +1,5 @@
 /**
- * بيت العلم - المحرك الرئيسي المعدل
- * يدعم تعدد الملفات والمجلدات المستقلة
+ * بيت العلم - النسخة التصحيحية (Debug Version)
  */
 
 let allQuestions = [];
@@ -9,8 +8,8 @@ let searchTerm = '';
 const itemsPerPage = 15; 
 let currentPage = 1;
 
-// 1. حدد هنا أسماء ملفاتك الموجودة فعلياً داخل مجلد data
-const DATA_FILES = ['general.json']; // أضف هنا 'islamic.json' وغيرها بشرط أن تكون موجودة
+// تأكد من أن الأسماء هنا مطابقة لملفاتك في مجلد data تماماً
+const DATA_FILES = ['general.json']; 
 
 const selectors = {
     questionsList: null,
@@ -28,19 +27,38 @@ function initSelectors() {
     selectors.statsCount = document.getElementById('stats-count');
 }
 
-// دالة التحميل الذكي
 async function loadDatabase() {
+    // تحديد المسار: هل نحن في الرئيسية أم داخل مجلد questions
     const isInsideQuestions = window.location.pathname.includes('/questions/');
     const baseDir = isInsideQuestions ? '../data/' : 'data/';
 
+    console.log("بدء تحميل البيانات من المسار:", baseDir);
+
     try {
         const promises = DATA_FILES.map(async (fileName) => {
+            const filePath = baseDir + fileName;
             try {
-                const response = await fetch(baseDir + fileName);
-                if (!response.ok) return []; // إذا لم يجد الملف لا يتوقف الكود
-                return await response.json();
-            } catch (err) {
-                console.warn(`تحذير: تعذر تحميل الملف ${fileName}`);
+                const response = await fetch(filePath);
+                
+                if (!response.ok) {
+                    console.error(`❌ خطأ 404: الملف غير موجود في المسار: ${filePath}`);
+                    return [];
+                }
+
+                const textData = await response.text(); // جلب البيانات كنص أولاً للتأكد
+                if (!textData || textData.trim() === "") {
+                    console.error(`❌ خطأ: الملف ${fileName} فارغ تماماً!`);
+                    return [];
+                }
+
+                try {
+                    return JSON.parse(textData);
+                } catch (parseErr) {
+                    console.error(`❌ خطأ في تنسيق JSON داخل الملف ${fileName}:`, parseErr.message);
+                    return [];
+                }
+            } catch (fetchErr) {
+                console.error(`❌ فشل الاتصال بالملف ${fileName}:`, fetchErr.message);
                 return [];
             }
         });
@@ -48,20 +66,21 @@ async function loadDatabase() {
         const results = await Promise.all(promises);
         allQuestions = results.flat();
         
-        console.log("تم تحميل البيانات بنجاح:", allQuestions.length);
+        console.log("✅ إجمالي الأسئلة المحملة:", allQuestions.length);
 
-        if (selectors.statsCount) selectors.statsCount.innerText = allQuestions.length.toLocaleString();
-        
-        if (selectors.questionsList) {
-            setupCategories(allQuestions);
-            renderQuestions();
+        if (allQuestions.length > 0) {
+            if (selectors.statsCount) selectors.statsCount.innerText = allQuestions.length.toLocaleString();
+            if (selectors.questionsList) {
+                setupCategories(allQuestions);
+                renderQuestions();
+            }
+            renderRelated();
+        } else {
+            console.warn("⚠️ لم يتم تحميل أي أسئلة. تأكد من وجود ملفات JSON صحيحة في مجلد data.");
         }
 
-        // تشغيل الأسئلة المقترحة إذا كنا في صفحة مقال
-        renderRelated();
-
     } catch (globalErr) {
-        console.error("فشل تحميل قاعدة البيانات بالكامل:", globalErr);
+        console.error("❌ فشل تحميل قاعدة البيانات بالكامل:", globalErr);
     }
 }
 
@@ -69,28 +88,26 @@ function renderQuestions() {
     if (!selectors.questionsList) return;
 
     const filtered = allQuestions.filter(q => {
-        const titleText = q.title || "";
-        const catText = q.category || "";
-        const matchesSearch = titleText.toLowerCase().includes(searchTerm) || catText.toLowerCase().includes(searchTerm);
-        const matchesCategory = activeCategory === 'all' || catText.toLowerCase() === activeCategory;
+        const titleText = (q.title || "").toLowerCase();
+        const matchesSearch = titleText.includes(searchTerm);
+        const matchesCategory = activeCategory === 'all' || (q.category || "").toLowerCase() === activeCategory;
         return matchesSearch && matchesCategory;
     });
 
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
 
     selectors.questionsList.innerHTML = paginated.map(q => {
-        // الروابط من الصفحة الرئيسية يجب أن تذهب لمجلد questions
+        // تأكد أن الرابط يوجه للمجلد الصحيح
         const articleUrl = `questions/${q.url}`;
-
         return `
             <article class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex gap-4 mb-4">
                 <div class="hidden sm:flex flex-col items-center gap-1 shrink-0 w-16">
                     <span class="text-sm font-bold text-slate-700">${q.votes || 0}</span>
                     <span class="text-[10px] text-slate-400">تصويت</span>
-                    <div class="bg-emerald-600 text-white px-2 py-1 rounded text-[10px] font-bold mt-1">${q.answers || 1} إجابة</div>
+                    <div class="bg-emerald-600 text-white px-2 py-1 rounded text-[10px] font-bold mt-1">إجابة</div>
                 </div>
-                <div class="flex-grow">
-                    <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-1 rounded-md">${q.category}</span>
+                <div class="flex-grow text-right">
+                    <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-1 rounded-md">${q.category || 'عام'}</span>
                     <h2 class="text-lg font-bold text-blue-700 mt-2 mb-2">
                         <a href="${articleUrl}">${q.title}</a>
                     </h2>
@@ -113,21 +130,16 @@ function renderRelated() {
         .sort(() => 0.5 - Math.random())
         .slice(0, 4);
 
-    relContainer.innerHTML = `
-        <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">أسئلة مقترحة</h4>
-        <div class="grid sm:grid-cols-2 gap-3">
-            ${related.map(q => `
-                <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-xl hover:border-indigo-500 transition-all flex justify-between items-center group shadow-sm">
-                    <span class="text-xs font-bold text-slate-700 group-hover:text-indigo-600">${q.title}</span>
-                </a>
-            `).join('')}
-        </div>
-    `;
+    relContainer.innerHTML = related.map(q => `
+        <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-xl hover:border-indigo-500 transition-all block shadow-sm">
+            <span class="text-xs font-bold text-slate-700">${q.title}</span>
+        </a>
+    `).join('');
 }
 
 function setupCategories(data) {
     if (!selectors.categoriesFilter) return;
-    const categories = ['all', ...new Set(data.map(q => q.category?.toLowerCase()).filter(Boolean))];
+    const categories = ['all', ...new Set(data.map(q => q.category).filter(Boolean))];
     selectors.categoriesFilter.innerHTML = categories.map(c => `
         <button onclick="filterCategory('${c}')" class="px-4 py-1.5 text-xs font-bold rounded-lg shrink-0 ${activeCategory === c ? 'bg-indigo-600 text-white' : 'bg-white border text-slate-500'}">
             ${c === 'all' ? 'الكل' : c}
@@ -135,18 +147,18 @@ function setupCategories(data) {
     `).join('');
 }
 
-window.filterCategory = function(c) { activeCategory = c; renderQuestions(); setupCategories(allQuestions); };
+window.filterCategory = function(c) { 
+    activeCategory = c.toLowerCase(); 
+    renderQuestions(); 
+    setupCategories(allQuestions); 
+};
 
 document.addEventListener("DOMContentLoaded", () => {
     initSelectors();
     loadDatabase();
-
-    const searchAction = (e) => {
+    
+    selectors.searchDesktop?.addEventListener('input', (e) => {
         searchTerm = e.target.value.toLowerCase();
-        currentPage = 1;
         renderQuestions();
-    };
-
-    selectors.searchDesktop?.addEventListener('input', searchAction);
-    selectors.searchMobile?.addEventListener('input', searchAction);
+    });
 });
