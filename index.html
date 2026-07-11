@@ -1,42 +1,75 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="scroll-smooth">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>بيت العلم | أكبر موسوعة أسئلة وأجوبة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيت العلم | مجتمع المعرفة</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap'); body { font-family: 'Cairo', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f3f4f6; }
+        .stats-box { width: 70px; height: 75px; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
-    <!-- الهيدر -->
-    <header class="bg-[#2D4E67] text-white p-4 shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-black">بيت العلم</h1>
-            <nav class="flex gap-6 text-sm font-bold">
-                <a href="index.html">الرئيسية</a>
-                <a href="about.html">عن الموقع</a>
-                <a href="privacy.html">سياسة الخصوصية</a>
+<body>
 
+    <!-- Header المطور -->
+    <header class="bg-[#1e3a5a] text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-white p-1 rounded-lg">
+                    <svg class="w-6 h-6 text-[#1e3a5a]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                </div>
+                <span class="text-xl font-black tracking-tighter">بيت العلم</span>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm font-bold">
+                <a href="index.html" class="bg-[#2d4e75] px-4 py-2 rounded-lg flex items-center gap-2">
+                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                   الرئيسية
+                </a>
+                <a href="about.html" class="hover:text-sky-300 py-2">عن الموقع</a>
+                <a href="privacy.html" class="hover:text-sky-300 py-2">سياسة الخصوصية</a>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-4 flex flex-col md:flex-row gap-6 mt-6">
-        <!-- القائمة الجانبية -->
-        <aside class="w-full md:w-1/4 space-y-4">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <input type="text" id="search-input" placeholder="ابحث عن سؤالك..." class="w-full p-2 border border-slate-200 rounded-lg outline-none">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row-reverse gap-6">
+        
+        <!-- Sidebar اليمين (البحث والترحيب) -->
+        <aside class="w-full md:w-80 shrink-0 space-y-4">
+            <!-- مربع البحث -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="ابحث عن سؤالك" class="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition-all text-sm">
+                    <svg class="w-5 h-5 text-slate-400 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
             </div>
-            <div class="bg-slate-800 text-white p-5 rounded-xl text-sm leading-relaxed">
-                مرحباً بك في بيت العلم، يمكنك طرح الأسئلة والحصول على إجابات موثقة.
+
+            <!-- كارت الترحيب -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center space-y-4">
+                <img src="https://img.freepik.com/free-vector/learning-concept-illustration_114360-6186.jpg" alt="Welcome" class="w-32 mx-auto">
+                <h3 class="font-bold text-slate-800">مرحباً بك في بيت العلم.</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">للحصول على إجابات موثقة من المعلمين والخبراء، تصفح قائمة الأسئلة.</p>
+                <div class="pt-4 border-t border-slate-50">
+                   <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">مجتمع المعرفة الموثوقة</p>
+                </div>
             </div>
         </aside>
 
-        <!-- قائمة الأسئلة -->
-        <section class="flex-1 space-y-4">
-            <div class="bg-blue-600 text-white p-3 rounded-lg font-bold">آخر الأسئلة والإجابات</div>
-            <div id="questions-list" class="space-y-4"></div>
-        </section>
-    </main>
+        <!-- منطقة الأسئلة اليسار -->
+        <main class="flex-1 space-y-4">
+            <div class="bg-[#1e3a5a] text-white p-3 px-5 rounded-xl font-bold flex justify-between items-center shadow-sm">
+                <span>آخر الأسئلة والإجابات</span>
+                <span id="stats-count" class="text-xs bg-[#2d4e75] px-2 py-1 rounded">0</span>
+            </div>
+
+            <!-- قائمة الأسئلة -->
+            <div id="questions-list" class="space-y-4">
+                <!-- تحميل تلقائي بواسطة JS -->
+            </div>
+        </main>
+    </div>
+
     <script src="add.js"></script>
 </body>
 </html>
