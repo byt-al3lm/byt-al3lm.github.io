@@ -3,35 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عن بيت العلم | بيت العلم</title>
+    <title>عن الموقع | بيت العلم</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap'); body { font-family: 'Cairo', sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f3f4f6; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+<body>
 
-    <header class="bg-[#2D4E67] text-white p-4 shadow-lg">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-black">بيت العلم</h1>
-            <nav class="flex gap-6 text-sm font-bold">
-                <a href="index.html" class="hover:text-blue-200">الرئيسية</a>
-                <a href="about.html" class="text-blue-200">عن الموقع</a>
-                <a href="privacy.html" class="hover:text-blue-200">سياسة الخصوصية</a>
+    <!-- Header -->
+    <header class="bg-[#1e3a5a] text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="bg-white p-1 rounded-lg">
+                    <svg class="w-6 h-6 text-[#1e3a5a]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                </div>
+                <span class="text-xl font-black tracking-tighter">بيت العلم</span>
+            </a>
+            <nav class="hidden md:flex gap-6 text-sm font-bold">
+                <a href="index.html" class="hover:text-sky-300">الرئيسية</a>
+                <a href="about.html" class="bg-[#2d4e75] px-4 py-2 rounded-lg">عن الموقع</a>
+                <a href="privacy.html" class="hover:text-sky-300">سياسة الخصوصية</a>
             </nav>
         </div>
     </header>
 
-    <main class="flex-grow max-w-4xl mx-auto w-full p-6 mt-8">
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-            <h1 class="text-3xl font-black text-[#2D4E67] mb-6 border-b pb-4">عن بيت العلم</h1>
-            <div class="space-y-4 leading-9 text-slate-700">
-                <p>مرحباً بك في <strong>بيت العلم</strong>، المنصة العربية الرائدة التي تهدف إلى تبسيط المعرفة وتوفير الحلول الدراسية الموثوقة.</p>
-                <p>نحن نؤمن بأن الوصول للمعلومة الصحيحة يجب أن يكون متاحاً وسهلاً لكل طالب وباحث عن المعرفة. لذا، قمنا بتصميم هذه المنصة لتكون دليلك الأول في رحلتك التعليمية.</p>
-                <h2 class="text-xl font-bold text-[#2D4E67] pt-4">رؤيتنا</h2>
-                <p>أن نصبح أكبر قاعدة بيانات للأسئلة والأجوبة التعليمية في الوطن العربي، مع الالتزام بالدقة العلمية والموضوعية.</p>
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100">
+            <h1 class="text-3xl font-black text-[#1e3a5a] mb-6 text-center">عن منصة بيت العلم</h1>
+            
+            <div class="space-y-8 text-slate-700 leading-relaxed">
+                <section>
+                    <h2 class="text-xl font-bold text-blue-800 mb-3 border-r-4 border-blue-500 pr-3">من نحن؟</h2>
+                    <p>بيت العلم هو مجتمع معرفي عربي يهدف إلى تقديم إجابات دقيقة وموثوقة لكافة الأسئلة التعليمية والثقافية والاجتماعية. نحن نؤمن بأن المعرفة حق للجميع، وبأن الوصول إلى المعلومة الصحيحة يجب أن يكون سهلاً ومجانياً.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-blue-800 mb-3 border-r-4 border-blue-500 pr-3">رؤيتنا</h2>
+                    <p>نسعى لأن نكون المرجع الأول للباحثين عن المعرفة في الوطن العربي، من خلال بناء قاعدة بيانات ضخمة تضم آلاف الإجابات المراجعة والمدققة علمياً من قبل متخصصين ومعلمين.</p>
+                </section>
+
+                <div class="grid md:grid-cols-3 gap-6 pt-6">
+                    <div class="text-center p-4 bg-slate-50 rounded-2xl">
+                        <div class="text-2xl font-black text-[#1e3a5a] mb-1">10,000+</div>
+                        <div class="text-xs font-bold text-slate-500 uppercase">سؤال وإجابة</div>
+                    </div>
+                    <div class="text-center p-4 bg-slate-50 rounded-2xl">
+                        <div class="text-2xl font-black text-[#1e3a5a] mb-1">100%</div>
+                        <div class="text-xs font-bold text-slate-500 uppercase">دقة المعلومات</div>
+                    </div>
+                    <div class="text-center p-4 bg-slate-50 rounded-2xl">
+                        <div class="text-2xl font-black text-[#1e3a5a] mb-1">24/7</div>
+                        <div class="text-xs font-bold text-slate-500 uppercase">تحديث مستمر</div>
+                    </div>
+                </div>
+
+                <div class="pt-8 text-center">
+                    <a href="index.html" class="inline-block bg-[#1e3a5a] text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
+                        تصفح الأسئلة الآن
+                    </a>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer class="bg-white border-t mt-12 p-6 text-center text-slate-500 text-sm">جميع الحقوق محفوظة لبيت العلم © 2024</footer>
+    <script src="add.js"></script>
 </body>
 </html>
