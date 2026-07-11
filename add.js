@@ -58,11 +58,11 @@ function renderQuestions() {
             <div class="flex gap-2 shrink-0">
                 <div class="stats-box bg-[#1e3a5a] text-white rounded-xl flex flex-col items-center justify-center">
                     <span class="text-lg font-bold">${q.votes || 0}</span>
-                    <span class="text-[9px] uppercase font-bold opacity-80 italic">Votes</span>
+                    <span class="text-[9px] uppercase font-bold opacity-80 italic">تصويتات</span>
                 </div>
                 <div class="stats-box bg-[#a68b4c] text-white rounded-xl flex flex-col items-center justify-center text-center px-1">
                     <span class="text-lg font-bold">1</span>
-                    <span class="text-[8px] font-bold leading-tight uppercase italic text-sky-100">لحون<br>Answers</span>
+                    <span class="text-[8px] font-bold leading-tight uppercase italic text-sky-100">إجابة</span>
                 </div>
             </div>
 
