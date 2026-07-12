@@ -1,73 +1,41 @@
+
 /**
- * 🎓 محرك بيت العلم (مجتمع المعرفة) - الإصدار الاحترافي 5.0
- * حل نهائي لمشكلة المسارات (GitHub Pages & Local Server)
+ * 🎓 محرك بيت العلم - إصدار "الإصلاح الشامل للمسارات"
  */
 
-// --- 1. الإعدادات العامة ---
 let allQuestions = [];
 let searchTerm = '';
 let currentPage = 1;
-const itemsPerPage = 12;
+const itemsPerPage = 15;
 
-// ملفات البيانات (JSON)
-const DATA_FILES = ['general.json']; 
+// 1. تحديد مستوى المجلد الحالي (هل نحن داخل questions؟)
+// إذا كان الرابط يحتوي على /questions/ فإن المسار للرجوع هو ../
+const isSubDir = window.location.pathname.toLowerCase().includes('/questions/');
+const prefix = isSubDir ? '../' : '';
 
-// --- دالة تحديد موقع الموقع (هام جداً للروابط) ---
-const getBaseInfo = () => {
-    const pathParts = window.location.pathname.split('/');
-    // البحث عن مجلد questions في المسار
-    const qIndex = pathParts.indexOf('questions');
-    const isSub = qIndex !== -1;
-    
-    // حساب المسار الرئيسي للموقع (يتعامل مع GitHub Pages بشكل صحيح)
-    const rootPath = isSub ? pathParts.slice(0, qIndex).join('/') + '/' : pathParts.slice(0, -1).join('/') + '/';
-    const origin = window.location.origin;
+// إعدادات المسارات
+const DATA_FILES = [prefix + 'data/general.json'];
 
-    return {
-        isInsideQuestions: isSub,
-        rootFullUrl: origin + rootPath,
-        dataDir: isSub ? '../data/' : 'data/',
-        articleDir: isSub ? '' : 'questions/'
-    };
-};
-
-const config = getBaseInfo();
-
-const selectors = {
-    questionsList: null,
-    statsCount: null,
-    searchInput: null
-};
-
-// --- 2. دالة إصلاح الروابط (الحل النهائي والذكي) ---
-function fixAllNavigationLinks() {
-    const targets = ['index.html', 'about.html', 'privacy.html'];
-    
-    // استهداف كافة الروابط في الصفحة
-    document.querySelectorAll('a').forEach(link => {
+// --- 2. دالة إصلاح الروابط (تعمل فوراً وبدقة) ---
+function fixLinks() {
+    const navLinks = document.querySelectorAll('a');
+    navLinks.forEach(link => {
         const href = link.getAttribute('href');
         
-        // إذا كان الرابط يؤدي لصفحة رئيسية
-        if (href && targets.includes(href)) {
-            // تحويل الرابط إلى مسار كامل يبدأ من المجلد الرئيسي للموقع
-            link.href = config.rootFullUrl + href;
+        // إذا كنا داخل مجلد فرعي، نعدل الروابط الرئيسية فقط
+        if (isSubDir) {
+            if (href === 'index.html' || href === 'about.html' || href === 'privacy.html') {
+                link.href = prefix + href;
+            }
         }
     });
-    console.log("🚀 تم تثبيت المسارات الرئيسية للموقع بنجاح.");
 }
 
-// --- 3. تهيئة العناصر ---
-function initSelectors() {
-    selectors.questionsList = document.getElementById('questions-list');
-    selectors.statsCount = document.getElementById('stats-count');
-    selectors.searchInput = document.getElementById('search-input');
-}
-
-// --- 4. جلب البيانات ---
+// --- 3. جلب البيانات ---
 async function loadDatabase() {
     try {
-        const promises = DATA_FILES.map(async (fileName) => {
-            const res = await fetch(config.dataDir + fileName);
+        const promises = DATA_FILES.map(async (path) => {
+            const res = await fetch(path);
             if (!res.ok) return [];
             return await res.json();
         });
@@ -75,115 +43,103 @@ async function loadDatabase() {
         const results = await Promise.all(promises);
         allQuestions = results.flat();
         
-        if (selectors.statsCount) selectors.statsCount.innerText = allQuestions.length.toLocaleString();
+        const stats = document.getElementById('stats-count');
+        if (stats) stats.innerText = allQuestions.length.toLocaleString();
         
-        if (selectors.questionsList) renderQuestions();
-        if (config.isInsideQuestions) renderRelated();
+        if (document.getElementById('questions-list')) renderQuestions();
+        if (isSubDir) renderRelated();
 
     } catch (err) {
-        console.error("❌ فشل تحميل قاعدة البيانات:", err);
+        console.error("خطأ في البيانات:", err);
     }
 }
 
-// --- 5. عرض الأسئلة ---
+// --- 4. عرض الأسئلة ---
 function renderQuestions() {
-    if (!selectors.questionsList) return;
+    const list = document.getElementById('questions-list');
+    if (!list) return;
 
-    const filtered = allQuestions.filter(q => {
-        const query = searchTerm.toLowerCase();
-        return (q.title || "").toLowerCase().includes(query) || 
-               (q.category || "").toLowerCase().includes(query);
-    });
+    const filtered = allQuestions.filter(q => 
+        (q.title || "").toLowerCase().includes(searchTerm)
+    );
 
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
 
-    if (paginated.length === 0) {
-        selectors.questionsList.innerHTML = `<div class="p-10 text-center bg-white rounded-xl border text-slate-400">لا توجد نتائج للبحث..</div>`;
-        return;
-    }
-
-    selectors.questionsList.innerHTML = paginated.map(q => `
-        <article class="reveal bg-white p-5 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all space-y-3 mb-4">
-            <div class="flex items-center justify-between text-[10px] font-bold">
-                <span class="bg-blue-50 text-[#1e3a5a] px-2.5 py-1 rounded-md border border-blue-100/50">${q.category || "عام"}</span>
-                <span class="text-slate-400 italic">منذ فترة وجيزة</span>
+    list.innerHTML = paginated.map(q => `
+        <article class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex gap-4 mb-4 hover:border-blue-400 transition-all">
+            <div class="hidden sm:flex flex-col items-center gap-1 shrink-0 w-16 text-center">
+                <span class="text-sm font-bold text-slate-700">0</span>
+                <span class="text-[10px] text-slate-400 font-bold uppercase">Votes</span>
+                <div class="bg-green-600 text-white px-2 py-1 rounded text-[10px] font-bold mt-1">إجابة</div>
             </div>
-            <h3 class="font-bold text-slate-800 text-base md:text-lg leading-snug">
-                <a href="${config.rootFullUrl + config.articleDir + q.url}" class="hover:text-blue-600 transition-colors">${q.title}</a>
-            </h3>
-            <div class="flex items-center justify-between text-[11px] pt-3 border-t border-slate-50 text-slate-500 font-bold">
-                <span class="flex items-center gap-1">
-                    <span class="w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center text-[10px]">✔</span> إجابة معتمدة
-                </span>
-                <a href="${config.rootFullUrl + config.articleDir + q.url}" class="bg-[#1e3a5a] text-white px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-all shadow-sm">عرض الحل الكامل</a>
+            <div class="flex-grow">
+                <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-1 rounded-md">${q.category || 'عام'}</span>
+                <h2 class="text-lg font-bold text-blue-800 mt-2 mb-2 leading-tight">
+                    <a href="${prefix}questions/${q.url}">${q.title}</a>
+                </h2>
+                <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50 text-[11px] font-bold">
+                    <span class="text-emerald-600">✔ إجابة معتمدة</span>
+                    <a href="${prefix}questions/${q.url}" class="text-blue-600">عرض الحل الكامل ←</a>
+                </div>
             </div>
         </article>
     `).join('');
 
-    initAnimations();
     manageInfiniteScroll(filtered.length, paginated.length);
 }
 
-// --- 6. التمرير اللانهائي ---
+// --- 5. التمرير اللانهائي ---
 function manageInfiniteScroll(total, current) {
     let loader = document.getElementById('infinite-loader');
     if (current < total) {
         if (!loader) {
             loader = document.createElement('div');
             loader.id = 'infinite-loader';
-            loader.className = 'py-6 text-center text-slate-400 text-[11px] font-black animate-pulse';
-            loader.innerText = 'جاري جلب المزيد من إجابات بيت العلم...';
-            selectors.questionsList.after(loader);
-
+            loader.className = 'py-6 text-center text-slate-400 text-xs font-bold';
+            loader.innerText = 'جاري التحميل...';
+            document.getElementById('questions-list').after(loader);
             const obs = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) { currentPage++; renderQuestions(); }
-            }, { threshold: 0.1 });
+            });
             obs.observe(loader);
         }
     } else if (loader) loader.remove();
 }
 
-// --- 7. الأسئلة المقترحة ---
+// --- 6. الأسئلة المقترحة ---
 function renderRelated() {
-    const relContainer = document.getElementById('related-questions');
-    if (!relContainer) return;
-    const currentFile = window.location.pathname.split("/").pop();
+    const rel = document.getElementById('related-questions');
+    if (!rel) return;
+    const current = window.location.pathname.split("/").pop();
     const related = allQuestions
-        .filter(q => !q.url.includes(currentFile))
+        .filter(q => !q.url.includes(current))
         .sort(() => 0.5 - Math.random()).slice(0, 4);
 
-    relContainer.innerHTML = `
-        <h4 class="text-sm font-black text-[#1e3a5a] mb-5 pr-3 border-r-4 border-orange-500">أسئلة مقترحة</h4>
-        <div class="grid sm:grid-cols-2 gap-4">
+    rel.innerHTML = `
+        <h4 class="text-sm font-bold text-slate-400 mb-4 pr-3 border-r-4 border-blue-600">أسئلة مقترحة</h4>
+        <div class="grid sm:grid-cols-2 gap-3">
             ${related.map(q => `
-                <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-2xl hover:border-blue-500 transition-all shadow-sm group">
-                    <span class="text-xs font-bold text-slate-700 group-hover:text-blue-600 leading-relaxed">${q.title}</span>
+                <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-xl hover:border-blue-500 shadow-sm transition-all">
+                    <span class="text-xs font-bold text-slate-700">${q.title}</span>
                 </a>`).join('')}
         </div>`;
 }
 
-// --- 8. تأثيرات الظهور ---
-function initAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('opacity-100', 'translate-y-0'); observer.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => {
-        el.classList.add('transition-all', 'duration-500', 'opacity-0', 'translate-y-4');
-        observer.observe(el);
-    });
-}
-
-// --- 9. تشغيل المحرك ---
+// --- 7. التشغيل ---
 document.addEventListener("DOMContentLoaded", () => {
-    initSelectors();
-    loadDatabase();
+    // 1. إصلاح الروابط فوراً
+    fixLinks();
     
-    // إصلاح الروابط فوراً بقوة الـ Absolute URL
-    fixAllNavigationLinks();
+    // 2. تحميل البيانات
+    loadDatabase();
 
-    selectors.searchInput?.addEventListener('input', (e) => {
-        searchTerm = e.target.value.trim().toLowerCase();
-        currentPage = 1;
-        renderQuestions();
-    });
+    // 3. البحث
+    const search = document.getElementById('search-input');
+    if (search) {
+        search.addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            currentPage = 1;
+            renderQuestions();
+        });
+    }
 });
