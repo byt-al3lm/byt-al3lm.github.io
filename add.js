@@ -1,7 +1,6 @@
-
 /**
- * 🎓 محرك بيت العلم (مجتمع المعرفة) - الإصدار الاحترافي 4.0
- * حل نهائي لمشكلة المسارات + تمرير لانهائي + بحث ذكي
+ * 🎓 محرك بيت العلم (مجتمع المعرفة) - الإصدار الاحترافي 5.0
+ * حل نهائي لمشكلة المسارات (GitHub Pages & Local Server)
  */
 
 // --- 1. الإعدادات العامة ---
@@ -10,16 +9,29 @@ let searchTerm = '';
 let currentPage = 1;
 const itemsPerPage = 12;
 
-// أسماء ملفات البيانات (JSON)
+// ملفات البيانات (JSON)
 const DATA_FILES = ['general.json']; 
 
-// كشف موقع الصفحة الحالي (هام جداً لحل مشكلة الروابط)
-const currentPath = window.location.pathname;
-const isInsideQuestions = currentPath.includes('/questions/');
+// --- دالة تحديد موقع الموقع (هام جداً للروابط) ---
+const getBaseInfo = () => {
+    const pathParts = window.location.pathname.split('/');
+    // البحث عن مجلد questions في المسار
+    const qIndex = pathParts.indexOf('questions');
+    const isSub = qIndex !== -1;
+    
+    // حساب المسار الرئيسي للموقع (يتعامل مع GitHub Pages بشكل صحيح)
+    const rootPath = isSub ? pathParts.slice(0, qIndex).join('/') + '/' : pathParts.slice(0, -1).join('/') + '/';
+    const origin = window.location.origin;
 
-// ضبط المسارات بناءً على موقع الصفحة
-const baseDataPath = isInsideQuestions ? '../data/' : 'data/';
-const baseArticlePath = isInsideQuestions ? '' : 'questions/';
+    return {
+        isInsideQuestions: isSub,
+        rootFullUrl: origin + rootPath,
+        dataDir: isSub ? '../data/' : 'data/',
+        articleDir: isSub ? '' : 'questions/'
+    };
+};
+
+const config = getBaseInfo();
 
 const selectors = {
     questionsList: null,
@@ -27,25 +39,21 @@ const selectors = {
     searchInput: null
 };
 
-// --- 2. دالة إصلاح الروابط (الحل الجذري للمشكلة) ---
+// --- 2. دالة إصلاح الروابط (الحل النهائي والذكي) ---
 function fixAllNavigationLinks() {
-    if (isInsideQuestions) {
-        // قائمة الصفحات التي يجب أن تعود للمجلد الرئيسي
-        const rootPages = ['index.html', 'about.html', 'privacy.html'];
+    const targets = ['index.html', 'about.html', 'privacy.html'];
+    
+    // استهداف كافة الروابط في الصفحة
+    document.querySelectorAll('a').forEach(link => {
+        const href = link.getAttribute('href');
         
-        // البحث في كافة روابط الصفحة بلا استثناء
-        const allLinks = document.querySelectorAll('a');
-        
-        allLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            
-            // إذا كان الرابط هو أحد الصفحات الرئيسية ولا يبدأ بـ http أو ../
-            if (href && rootPages.includes(href)) {
-                link.setAttribute('href', '../' + href);
-            }
-        });
-        console.log("✅ تم تصحيح مسارات الروابط للعودة للمجلد الرئيسي.");
-    }
+        // إذا كان الرابط يؤدي لصفحة رئيسية
+        if (href && targets.includes(href)) {
+            // تحويل الرابط إلى مسار كامل يبدأ من المجلد الرئيسي للموقع
+            link.href = config.rootFullUrl + href;
+        }
+    });
+    console.log("🚀 تم تثبيت المسارات الرئيسية للموقع بنجاح.");
 }
 
 // --- 3. تهيئة العناصر ---
@@ -59,7 +67,7 @@ function initSelectors() {
 async function loadDatabase() {
     try {
         const promises = DATA_FILES.map(async (fileName) => {
-            const res = await fetch(baseDataPath + fileName);
+            const res = await fetch(config.dataDir + fileName);
             if (!res.ok) return [];
             return await res.json();
         });
@@ -70,10 +78,10 @@ async function loadDatabase() {
         if (selectors.statsCount) selectors.statsCount.innerText = allQuestions.length.toLocaleString();
         
         if (selectors.questionsList) renderQuestions();
-        if (isInsideQuestions) renderRelated();
+        if (config.isInsideQuestions) renderRelated();
 
     } catch (err) {
-        console.warn("⚠️ تنبيه: فشل تحميل البيانات. تأكد من تشغيل المشروع عبر Live Server.");
+        console.error("❌ فشل تحميل قاعدة البيانات:", err);
     }
 }
 
@@ -101,13 +109,13 @@ function renderQuestions() {
                 <span class="text-slate-400 italic">منذ فترة وجيزة</span>
             </div>
             <h3 class="font-bold text-slate-800 text-base md:text-lg leading-snug">
-                <a href="${baseArticlePath}${q.url}" class="hover:text-blue-600 transition-colors">${q.title}</a>
+                <a href="${config.rootFullUrl + config.articleDir + q.url}" class="hover:text-blue-600 transition-colors">${q.title}</a>
             </h3>
             <div class="flex items-center justify-between text-[11px] pt-3 border-t border-slate-50 text-slate-500 font-bold">
                 <span class="flex items-center gap-1">
                     <span class="w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center text-[10px]">✔</span> إجابة معتمدة
                 </span>
-                <a href="${baseArticlePath}${q.url}" class="bg-[#1e3a5a] text-white px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-all">عرض الحل</a>
+                <a href="${config.rootFullUrl + config.articleDir + q.url}" class="bg-[#1e3a5a] text-white px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-all shadow-sm">عرض الحل الكامل</a>
             </div>
         </article>
     `).join('');
@@ -124,7 +132,7 @@ function manageInfiniteScroll(total, current) {
             loader = document.createElement('div');
             loader.id = 'infinite-loader';
             loader.className = 'py-6 text-center text-slate-400 text-[11px] font-black animate-pulse';
-            loader.innerText = 'جاري جلب المزيد...';
+            loader.innerText = 'جاري جلب المزيد من إجابات بيت العلم...';
             selectors.questionsList.after(loader);
 
             const obs = new IntersectionObserver((entries) => {
@@ -154,7 +162,7 @@ function renderRelated() {
         </div>`;
 }
 
-// --- 8. التفاعلات وتأثيرات الظهور ---
+// --- 8. تأثيرات الظهور ---
 function initAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('opacity-100', 'translate-y-0'); observer.unobserve(e.target); } });
@@ -165,12 +173,12 @@ function initAnimations() {
     });
 }
 
-// --- 9. التشغيل ---
+// --- 9. تشغيل المحرك ---
 document.addEventListener("DOMContentLoaded", () => {
     initSelectors();
     loadDatabase();
     
-    // تصحيح الروابط فوراً عند تحميل أي صفحة
+    // إصلاح الروابط فوراً بقوة الـ Absolute URL
     fixAllNavigationLinks();
 
     selectors.searchInput?.addEventListener('input', (e) => {
