@@ -1,84 +1,57 @@
+
 /**
- * 🎓 محرك بيت العلم - الإصدار بدون مجلد questions
- * جميع الصفحات موجودة في المجلد الرئيسي.
- */
-/**
- * إصلاح روابط الصفحات الثابتة
- * يحول:
- * /questions/index.html    -> /index.html
- * /questions/about.html    -> /about.html
- * /questions/privacy.html  -> /privacy.html
+ * 🎓 محرك بيت العلم (مجتمع المعرفة) - الإصدار الاحترافي المتوافق مع المجلدات
+ * الهيكل: الرئيسية في / والمقالات في /questions/ والبيانات في /data/
  */
 
-(function () {
+// --- 1. اكتشاف الموقع الحالي والتحكم في المسارات ---
+const isInsideQuestions = window.location.pathname.includes('/questions/');
+// إذا كنا داخل مجلد الأسئلة، نحتاج للرجوع خطوة للخلف (../) للوصول للبيانات أو الرئيسية
+const pathPrefix = isInsideQuestions ? '../' : '';
 
-    const fixedLinks = {
-        "/questions/index.html": "/index.html",
-        "/questions/about.html": "/about.html",
-        "/questions/privacy.html": "/privacy.html",
-
-        "questions/index.html": "index.html",
-        "questions/about.html": "about.html",
-        "questions/privacy.html": "privacy.html"
-    };
-
-    function fixLinks() {
-
-        document.querySelectorAll("a[href]").forEach(link => {
-
-            const href = link.getAttribute("href");
-
-            if (fixedLinks[href]) {
-                link.setAttribute("href", fixedLinks[href]);
-            }
-
-        });
-
-    }
-
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", fixLinks);
-    } else {
-        fixLinks();
-    }
-
-})();
-// إعدادات البيانات
 let allQuestions = [];
 let searchTerm = '';
 let currentPage = 1;
 const itemsPerPage = 15;
 
-// تحميل قاعدة البيانات
+// --- 2. إصلاح روابط الهيدر تلقائياً (الرئيسية، عن الموقع، الخصوصية) ---
+(function fixNav() {
+    const adjust = () => {
+        if (isInsideQuestions) {
+            const targets = ['index.html', 'about.html', 'privacy.html'];
+            document.querySelectorAll("a[href]").forEach(link => {
+                const href = link.getAttribute("href");
+                if (targets.includes(href)) {
+                    link.setAttribute("href", pathPrefix + href);
+                }
+            });
+        }
+    };
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", adjust);
+    else adjust();
+})();
+
+// --- 3. جلب قاعدة البيانات ---
 async function loadDatabase() {
     try {
-        const response = await fetch('data/general.json');
-
-        if (!response.ok) {
-            throw new Error('تعذر تحميل قاعدة البيانات');
-        }
+        // الوصول للمجلد data بناءً على مكان الصفحة الحالية
+        const response = await fetch(pathPrefix + 'data/general.json');
+        if (!response.ok) throw new Error('تعذر تحميل البيانات');
 
         allQuestions = await response.json();
 
         const stats = document.getElementById('stats-count');
-        if (stats) {
-            stats.textContent = allQuestions.length.toLocaleString();
-        }
+        if (stats) stats.textContent = allQuestions.length.toLocaleString();
 
-        if (document.getElementById('questions-list')) {
-            renderQuestions();
-        }
-
-        if (document.getElementById('related-questions')) {
-            renderRelated();
-        }
+        if (document.getElementById('questions-list')) renderQuestions();
+        if (document.getElementById('related-questions')) renderRelated();
 
     } catch (err) {
-        console.error(err);
+        console.error("❌ فشل في جلب البيانات:", err);
     }
 }
 
-// عرض الأسئلة
+// --- 4. دالة عرض الأسئلة (بتصميم بيت العلم المطور) ---
 function renderQuestions() {
     const list = document.getElementById('questions-list');
     if (!list) return;
@@ -89,131 +62,114 @@ function renderQuestions() {
 
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
 
-    list.innerHTML = paginated.map(q => `
-        <article class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex gap-4 mb-4 hover:border-blue-400 transition-all">
+    list.innerHTML = paginated.map(q => {
+        // تحديد رابط المقال: 
+        // إذا كنا في الرئيسية، نذهب لـ questions/
+        // إذا كنا داخل المجلد بالفعل، نفتح الملف مباشرة
+        const finalArticleUrl = isInsideQuestions ? q.url : 'questions/' + q.url;
 
-            <div class="hidden sm:flex flex-col items-center gap-1 shrink-0 w-16 text-center">
-                <span class="text-sm font-bold text-slate-700">0</span>
-                <span class="text-[10px] text-slate-400 font-bold uppercase">Votes</span>
-                <div class="bg-green-600 text-white px-2 py-1 rounded text-[10px] font-bold mt-1">
-                    إجابة
+        return `
+        <article class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex gap-4 mb-4 hover:border-blue-400 hover:shadow-md transition-all group">
+            
+            <!-- مربعات الإحصائيات الملونة -->
+            <div class="flex gap-2 shrink-0">
+                <div class="w-[65px] h-[70px] bg-[#1e3a5a] text-white rounded-xl flex flex-col items-center justify-center shadow-sm">
+                    <span class="text-lg font-bold leading-none">${Math.floor(Math.random() * 10)}</span>
+                    <span class="text-[9px] uppercase font-bold opacity-70 italic mt-1">Votes</span>
+                </div>
+                <div class="w-[65px] h-[70px] bg-[#a68b4c] text-white rounded-xl flex flex-col items-center justify-center text-center px-1 shadow-sm">
+                    <span class="text-lg font-bold leading-none">1</span>
+                    <span class="text-[8px] font-bold leading-tight uppercase italic opacity-90 mt-1">لحون<br>Answers</span>
                 </div>
             </div>
 
-            <div class="flex-grow">
-                <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-1 rounded-md">
-                    ${q.category || 'عام'}
+            <!-- محتوى السؤال -->
+            <div class="flex-grow text-right">
+                <span class="text-[10px] font-bold bg-green-700 text-white px-2.5 py-1 rounded-md mb-2 inline-block">
+                    ${q.category || 'تفسير الاحلام'}
                 </span>
 
-                <h2 class="text-lg font-bold text-blue-800 mt-2 mb-2">
-                    <a href="${q.url}">
-                        ${q.title}
-                    </a>
+                <h2 class="text-lg font-bold text-slate-800 leading-snug group-hover:text-blue-700 transition-colors">
+                    <a href="${finalArticleUrl}">${q.title}</a>
                 </h2>
 
-                <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-50 text-[11px] font-bold text-slate-400">
+                <div class="flex justify-between items-center mt-4 pt-3 border-t border-slate-50 text-[11px] font-bold text-slate-400">
                     <span class="flex items-center gap-1">
-                        <span class="text-emerald-500">✔</span>
-                        إجابة معتمدة
+                        <span class="w-4 h-4 bg-emerald-500 text-white rounded-full flex items-center justify-center text-[10px]">✔</span>
+                        إجابة معتمدة ببيت العلم
                     </span>
 
-                    <a href="${q.url}" class="text-blue-600">
-                        عرض الحل ←
+                    <a href="${finalArticleUrl}" class="text-blue-600 font-black hover:underline">
+                        عرض الحل الكامل ←
                     </a>
                 </div>
             </div>
-
         </article>
-    `).join('');
+    `;
+    }).join('');
 
     manageInfiniteScroll(filtered.length, paginated.length);
 }
 
-// التمرير اللانهائي
+// --- 5. التمرير اللانهائي (Infinite Scroll) ---
 function manageInfiniteScroll(total, current) {
-
     let loader = document.getElementById('infinite-loader');
-
     if (current < total) {
-
         if (!loader) {
-
             loader = document.createElement('div');
             loader.id = 'infinite-loader';
-            loader.className = 'py-6 text-center text-slate-400 text-xs font-bold';
-            loader.textContent = 'جاري التحميل...';
-
+            loader.className = 'py-8 text-center text-slate-400 text-xs font-bold animate-pulse';
+            loader.textContent = 'جاري جلب المزيد من إجابات بيت العلم...';
             document.getElementById('questions-list').after(loader);
-
             const observer = new IntersectionObserver(entries => {
-
                 if (entries[0].isIntersecting) {
                     currentPage++;
                     renderQuestions();
                 }
-
-            });
-
+            }, { threshold: 0.1 });
             observer.observe(loader);
         }
-
-    } else {
-
-        if (loader) loader.remove();
-
-    }
+    } else if (loader) loader.remove();
 }
 
-// الأسئلة المقترحة
+// --- 6. الأسئلة المقترحة (في صفحات المقال الداخلية) ---
 function renderRelated() {
-
     const container = document.getElementById('related-questions');
-
     if (!container) return;
 
-    const currentPageName = window.location.pathname.split('/').pop();
+    const currentFilename = window.location.pathname.split('/').pop();
 
     const related = allQuestions
-        .filter(q => q.url !== currentPageName)
+        .filter(q => q.url !== currentFilename)
         .sort(() => Math.random() - 0.5)
         .slice(0, 4);
 
     container.innerHTML = `
-        <h4 class="text-sm font-bold text-slate-400 mb-4 pr-3 border-r-4 border-blue-600">
-            أسئلة مقترحة ببيت العلم
+        <h4 class="text-sm font-black text-[#1e3a5a] mb-5 pr-3 border-r-4 border-orange-500">
+            أسئلة مقترحة قد تهمك
         </h4>
-
         <div class="grid sm:grid-cols-2 gap-3">
-
             ${related.map(q => `
-                <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-xl hover:border-blue-500 shadow-sm transition-all">
-                    <span class="text-xs font-bold text-slate-700 leading-snug">
+                <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-2xl hover:border-blue-500 shadow-sm transition-all group">
+                    <span class="text-xs font-bold text-slate-700 group-hover:text-blue-600 leading-relaxed">
                         ${q.title}
                     </span>
                 </a>
             `).join('')}
-
         </div>
     `;
 }
 
-// تشغيل الموقع
+// --- 7. تشغيل المحرك والبحث ---
 document.addEventListener('DOMContentLoaded', () => {
-
     loadDatabase();
 
     const search = document.getElementById('search-input');
-
     if (search) {
-
         search.addEventListener('input', e => {
-
-            searchTerm = e.target.value.toLowerCase();
+            searchTerm = e.target.value.toLowerCase().trim();
             currentPage = 1;
             renderQuestions();
-
         });
-
     }
-
 });
