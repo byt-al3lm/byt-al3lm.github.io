@@ -11,44 +11,44 @@
         .stats-box { width: 70px; height: 75px; }
     </style>
 </head>
-<body>
+<body class="flex flex-col min-h-screen text-slate-800">
 
     <!-- Header المطور -->
     <header class="bg-[#1e3a5a] text-white shadow-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="bg-white p-1 rounded-lg">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="bg-white p-1 rounded-lg transition-transform group-hover:scale-105">
                     <svg class="w-6 h-6 text-[#1e3a5a]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
                 </div>
-                <span class="text-xl font-black tracking-tighter">بيت العلم</span>
-            </div>
-            <nav class="hidden md:flex gap-6 text-sm font-bold">
-                <a href="index.html" class="bg-[#2d4e75] px-4 py-2 rounded-lg flex items-center gap-2">
-                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span class="text-xl font-black tracking-tighter text-white">بيت العلم</span>
+            </a>
+            <nav class="flex gap-6 text-sm font-bold items-center">
+                <a href="index.html" class="bg-[#2d4e75] px-4 py-2 rounded-lg flex items-center gap-2 text-white hover:bg-[#385e8a] transition-colors">
+                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                    الرئيسية
                 </a>
-                <a href="about.html" class="hover:text-sky-300 py-2">عن الموقع</a>
-                <a href="privacy.html" class="hover:text-sky-300 py-2">سياسة الخصوصية</a>
+                <a href="about.html" class="hover:text-sky-300 py-2 transition-colors">عن الموقع</a>
+                <a href="privacy.html" class="hover:text-sky-300 py-2 transition-colors">سياسة الخصوصية</a>
             </nav>
         </div>
     </header>
 
-    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row-reverse gap-6">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row-reverse gap-6 flex-grow w-full">
         
         <!-- Sidebar اليمين (البحث والترحيب) -->
         <aside class="w-full md:w-80 shrink-0 space-y-4">
             <!-- مربع البحث -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
                 <div class="relative">
-                    <input type="text" id="search-input" placeholder="ابحث عن سؤالك" class="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition-all text-sm">
-                    <svg class="w-5 h-5 text-slate-400 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" id="search-input" placeholder="ابحث عن سؤالك..." class="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition-all text-sm">
+                    <svg class="w-5 h-5 text-slate-400 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
             </div>
 
             <!-- كارت الترحيب -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center space-y-4">
                 <img src="https://img.freepik.com/free-vector/learning-concept-illustration_114360-6186.jpg" alt="Welcome" class="w-32 mx-auto">
-                <h3 class="font-bold text-slate-800">مرحباً بك في بيت العلم.</h3>
+                <h3 class="font-bold text-slate-800">مرحباً بك في بيت العلم</h3>
                 <p class="text-xs text-slate-500 leading-relaxed">للحصول على إجابات موثقة من المعلمين والخبراء، تصفح قائمة الأسئلة.</p>
                 <div class="pt-4 border-t border-slate-50">
                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">مجتمع المعرفة الموثوقة</p>
@@ -69,6 +69,14 @@
             </div>
         </main>
     </div>
+
+    <!-- الفوتر -->
+    <footer class="bg-[#1a3141] text-white/80 py-6 text-center text-xs border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 space-y-3">
+            <p class="font-bold text-sm text-white">بيت العلم © 2026</p>
+            <p>جميع الحقوق محفوظة. بيت العلم (مجتمع المعرفة) - موسوعة المعرفة الموثوقة بمختلف المجالات التعليمية، الطبية، الاجتماعية والعلمية</p>
+        </div>
+    </footer>
 
     <script src="add.js"></script>
 </body>
