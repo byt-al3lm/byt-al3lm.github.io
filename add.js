@@ -1,29 +1,21 @@
-
 /**
- * 🎓 محرك بيت العلم (مجتمع المعرفة) - الإصدار النهائي المطور
- * مخصص لإدارة +10,000 سؤال بأداء عالٍ وتصحيح تلقائي للمسارات
+ * 🎓 محرك بيت العلم (مجتمع المعرفة) - الإصدار الاحترافي المتكامل
+ * مخصص لإدارة +10,000 سؤال بأداء عالٍ وتصميم عصري
  */
 
 // --- 1. الإعدادات العامة وقاعدة البيانات ---
 let allQuestions = [];
 let searchTerm = '';
 let currentPage = 1;
-const itemsPerPage = 12;
+const itemsPerPage = 12; // عدد الأسئلة في كل مرحلة تمرير
 
-// أسماء ملفات البيانات في مجلد /data/
+// أسماء ملفات البيانات في مجلد /data/ (يمكنك إضافة أي عدد من الملفات)
 const DATA_FILES = ['general.json']; 
 
-// كشف موقع الصفحة الحالي
+// كشف موقع الصفحة الحالي لضبط المسارات تلقائياً
 const isInsideQuestions = window.location.pathname.includes('/questions/');
-
-// البيانات
 const baseDataPath = isInsideQuestions ? '../data/' : 'data/';
-
-// المقالات تبقى داخل questions
 const baseArticlePath = isInsideQuestions ? '' : 'questions/';
-
-// الصفحات الثابتة أصبحت في المجلد الرئيسي
-const ROOT_PREFIX = isInsideQuestions ? '../' : '';
 
 const selectors = {
     questionsList: null,
@@ -40,6 +32,8 @@ function initSelectors() {
 
 // --- 3. جلب البيانات من ملفات JSON ---
 async function loadDatabase() {
+    console.log("%c جاري تشغيل محرك بيت العلم... ", "color: white; background: #1e3a5a; padding: 5px; border-radius: 5px;");
+    
     try {
         const promises = DATA_FILES.map(async (fileName) => {
             const res = await fetch(baseDataPath + fileName);
@@ -50,13 +44,15 @@ async function loadDatabase() {
         const results = await Promise.all(promises);
         allQuestions = results.flat();
         
+        // تحديث إحصائيات الموقع
         if (selectors.statsCount) selectors.statsCount.innerText = allQuestions.length.toLocaleString();
         
+        // البدء في عرض المحتوى بناءً على نوع الصفحة
         if (selectors.questionsList) renderQuestions();
         if (isInsideQuestions) renderRelated();
 
     } catch (err) {
-        console.warn("⚠️ تنبيه: فشل تحميل قاعدة البيانات. تأكد من تشغيل المشروع عبر سيرفر محلي.", err);
+        console.warn("⚠️ تنبيه: فشل تحميل قاعدة البيانات. تأكد من تشغيل المشروع عبر سيرفر محلي (Live Server).", err);
     }
 }
 
@@ -74,7 +70,11 @@ function renderQuestions() {
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
 
     if (paginated.length === 0) {
-        selectors.questionsList.innerHTML = `<div class="bg-white p-12 rounded-3xl border border-slate-100 text-center shadow-sm text-slate-500 font-bold">عذراً، لم نجد نتائج تطابق بحثك.</div>`;
+        selectors.questionsList.innerHTML = `
+            <div class="bg-white p-16 rounded-3xl border border-slate-100 text-center shadow-sm">
+                <div class="text-slate-300 mb-4"><svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div>
+                <p class="text-slate-500 font-bold">عذراً، لم نجد نتائج تطابق بحثك في بيت العلم.</p>
+            </div>`;
         return;
     }
 
@@ -84,8 +84,9 @@ function renderQuestions() {
                 <span class="bg-blue-50 text-[#1e3a5a] text-[10px] font-black px-2.5 py-1 rounded-md border border-blue-100/50 uppercase">
                     ${q.category || "عام"}
                 </span>
-                <span class="text-[10px] text-slate-400 font-bold flex items-center gap-1 italic">
-                    منذ ساعات قليلة
+                <span class="text-[10px] text-slate-400 font-bold flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    منذ فترة وجيزة
                 </span>
             </div>
             
@@ -99,9 +100,12 @@ function renderQuestions() {
 
             <div class="flex items-center justify-between text-[11px] pt-4 border-t border-slate-50 text-slate-500 font-bold">
                 <span class="flex items-center gap-1">
-                    <span class="w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center text-[10px]">✔</span> إجابة معتمدة
+                    <span class="w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center text-[10px]">✔</span> 
+                    إجابة معتمدة ببيت العلم
                 </span>
-                <a href="${baseArticlePath}${q.url}" class="bg-[#1e3a5a] text-white px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-all">عرض الحل</a>
+                <a href="${baseArticlePath}${q.url}" class="bg-[#1e3a5a] text-white px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-all flex items-center gap-1">
+                    عرض الحل الكامل
+                </a>
             </div>
         </article>
     `).join('');
@@ -139,7 +143,7 @@ function renderRelated() {
         .sort(() => 0.5 - Math.random()).slice(0, 4);
 
     relContainer.innerHTML = `
-        <h4 class="text-sm font-black text-[#1e3a5a] mb-5 pr-3 border-r-4 border-orange-500">أسئلة قد تهمك</h4>
+        <h4 class="text-sm font-black text-[#1e3a5a] mb-5 pr-3 border-r-4 border-orange-500">أسئلة قد تهمك في بيت العلم</h4>
         <div class="grid sm:grid-cols-2 gap-4">
             ${related.map(q => `
                 <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-2xl hover:border-blue-500 hover:shadow-md transition-all shadow-sm group">
@@ -148,32 +152,28 @@ function renderRelated() {
         </div>`;
 }
 
-// --- 7. إصلاح المسارات والتفاعلات الذكية ---
+// --- 7. إصلاح المسارات والتفاعلات الذكي ---
 function setupInteractions() {
-    // إصلاح روابط الصفحات الثابتة فقط
-    const pages = ['index.html', 'about.html', 'privacy.html'];
+    // إصلاح روابط الهيدر واللوجو تلقائياً
+    if (isInsideQuestions) {
+        const rootPages = ['index.html', 'about.html', 'privacy.html'];
+        document.querySelectorAll('a').forEach(a => {
+            const h = a.getAttribute('href');
+            if (h && rootPages.includes(h)) a.setAttribute('href', '../' + h);
+        });
+    }
 
-    document.querySelectorAll('a[href]').forEach(link => {
-        const href = link.getAttribute('href');
-
-        // لا نعدل روابط المقالات
-        if (!pages.includes(href)) return;
-
-        // جميع الصفحات الثابتة أصبحت في المجلد الرئيسي
-        link.setAttribute('href', ROOT_PREFIX + href);
-    });
-
-    // تفعيل زر مفيد
+    // تفعيل أزرار "مفيد"
     document.body.addEventListener('click', (e) => {
         const btn = e.target.closest('button');
-        if (!btn || !btn.innerText.includes('مفيد') || btn.disabled) return;
-
-        const countSpan = btn.querySelector('span:last-child');
-        if (countSpan) {
-            countSpan.innerText = (parseInt(countSpan.innerText) || 0) + 1;
-            btn.disabled = true;
-            btn.classList.add('text-emerald-600', 'scale-105');
-            showToast('شكراً لك! تم تسجيل تقييمك.');
+        if (btn && btn.innerText.includes("مفيد")) {
+            const countSpan = btn.querySelector('span:last-child');
+            if (countSpan && !btn.disabled) {
+                countSpan.innerText = (parseInt(countSpan.innerText) || 0) + 1;
+                btn.classList.add("text-emerald-600", "scale-105");
+                btn.disabled = true;
+                showToast("شكراً لك! تم تسجيل تقييمك بنجاح.");
+            }
         }
     });
 }
@@ -189,12 +189,13 @@ function initAnimations() {
     });
 }
 
-// --- 9. أداة تنبيه (Toast) ---
+// --- 9. أداة تنبيه بسيطة (Toast) ---
 function showToast(msg) {
     const toast = document.createElement('div');
-    toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#1e3a5a] text-white px-6 py-3 rounded-2xl text-[11px] font-bold shadow-2xl z-[100] transition-all duration-300';
+    toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#1e3a5a] text-white px-6 py-3 rounded-2xl text-xs font-bold shadow-2xl z-[100] transition-all duration-300 translate-y-20';
     toast.innerText = msg;
     document.body.appendChild(toast);
+    setTimeout(() => toast.classList.remove('translate-y-20'), 100);
     setTimeout(() => { toast.classList.add('opacity-0'); setTimeout(() => toast.remove(), 500); }, 3000);
 }
 
