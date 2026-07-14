@@ -1,18 +1,18 @@
+
 /**
- * 🎓 محرك بيت العلم (مجتمع المعرفة) - الإصدار الاحترافي المتكامل
- * مخصص لإدارة +10,000 سؤال بأداء عالٍ وتصميم عصري
+ * 🎓 محرك بيت العلم (مجتمع المعرفة) - الإصدار المتطور
+ * مخصص للأداء العالي، متوافق مع السيو، ودعم كامل للجوال
  */
 
 // --- 1. الإعدادات العامة وقاعدة البيانات ---
 let allQuestions = [];
 let searchTerm = '';
 let currentPage = 1;
-const itemsPerPage = 12; // عدد الأسئلة في كل مرحلة تمرير
+const itemsPerPage = 10; // عدد الأسئلة في كل "دفعة" تحميل
 
-// أسماء ملفات البيانات في مجلد /data/ (يمكنك إضافة أي عدد من الملفات)
-const DATA_FILES = ['general.json']; 
+const DATA_FILES = ['general.json']; // أضف ملفات JSON هنا
 
-// كشف موقع الصفحة الحالي لضبط المسارات تلقائياً
+// التحقق من المسار الحالي (جذر الموقع أم مجلد الأسئلة)
 const isInsideQuestions = window.location.pathname.includes('/questions/');
 const baseDataPath = isInsideQuestions ? '../data/' : 'data/';
 const baseArticlePath = isInsideQuestions ? '' : 'questions/';
@@ -23,43 +23,59 @@ const selectors = {
     searchInput: null
 };
 
-// --- 2. تهيئة العناصر الأساسية ---
+// --- 2. تهيئة المحرك عند التحميل ---
+document.addEventListener("DOMContentLoaded", () => {
+    initSelectors();
+    loadDatabase();
+    setupInteractions();
+
+    // ربط البحث
+    selectors.searchInput?.addEventListener('input', (e) => {
+        searchTerm = e.target.value.trim().toLowerCase();
+        currentPage = 1; // العودة للصفحة الأولى عند البحث
+        renderQuestions();
+    });
+});
+
 function initSelectors() {
     selectors.questionsList = document.getElementById('questions-list');
     selectors.statsCount = document.getElementById('stats-count');
     selectors.searchInput = document.getElementById('search-input');
 }
 
-// --- 3. جلب البيانات من ملفات JSON ---
+// --- 3. جلب البيانات (أداء محسن) ---
 async function loadDatabase() {
-    console.log("%c جاري تشغيل محرك بيت العلم... ", "color: white; background: #1e3a5a; padding: 5px; border-radius: 5px;");
-    
     try {
         const promises = DATA_FILES.map(async (fileName) => {
             const res = await fetch(baseDataPath + fileName);
-            if (!res.ok) throw new Error(`تعذر العثور على ${fileName}`);
+            if (!res.ok) throw new Error(`خطأ في تحميل ${fileName}`);
             return await res.json();
         });
 
         const results = await Promise.all(promises);
         allQuestions = results.flat();
         
-        // تحديث إحصائيات الموقع
-        if (selectors.statsCount) selectors.statsCount.innerText = allQuestions.length.toLocaleString();
+        // تحديث العداد في الهيدر
+        if (selectors.statsCount) {
+            selectors.statsCount.innerText = `${allQuestions.length.toLocaleString()} سؤال وجواب`;
+        }
         
-        // البدء في عرض المحتوى بناءً على نوع الصفحة
-        if (selectors.questionsList) renderQuestions();
+        renderQuestions();
         if (isInsideQuestions) renderRelated();
 
     } catch (err) {
-        console.warn("⚠️ تنبيه: فشل تحميل قاعدة البيانات. تأكد من تشغيل المشروع عبر سيرفر محلي (Live Server).", err);
+        console.error("⚠️ فشل تحميل قاعدة البيانات:", err);
+        if (selectors.questionsList) {
+            selectors.questionsList.innerHTML = `<p class="text-center py-10 text-red-500 font-bold">حدث خطأ أثناء تحميل البيانات، يرجى تحديث الصفحة.</p>`;
+        }
     }
 }
 
-// --- 4. عرض الأسئلة (التصميم المطور لبيت العلم) ---
+// --- 4. عرض الأسئلة بتصميم عصري (متوافق مع التصميم الجديد) ---
 function renderQuestions() {
     if (!selectors.questionsList) return;
 
+    // تصفية الأسئلة بناءً على البحث
     const filtered = allQuestions.filter(q => {
         const query = searchTerm.toLowerCase();
         return (q.title || "").toLowerCase().includes(query) || 
@@ -67,147 +83,116 @@ function renderQuestions() {
                (q.tags && q.tags.some(t => t.toLowerCase().includes(query)));
     });
 
+    // التقسيم (Pagination)
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
 
     if (paginated.length === 0) {
         selectors.questionsList.innerHTML = `
-            <div class="bg-white p-16 rounded-3xl border border-slate-100 text-center shadow-sm">
-                <div class="text-slate-300 mb-4"><svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div>
-                <p class="text-slate-500 font-bold">عذراً، لم نجد نتائج تطابق بحثك في بيت العلم.</p>
+            <div class="bg-white p-12 rounded-3xl text-center shadow-sm border border-slate-100">
+                <p class="text-slate-500 font-bold">لم نجد نتائج لـ "${searchTerm}" في بيت العلم.</p>
+                <button onclick="location.reload()" class="mt-4 text-blue-600 text-sm underline">إعادة تحميل الكل</button>
             </div>`;
         return;
     }
 
+    // بناء محتوى HTML
     selectors.questionsList.innerHTML = paginated.map(q => `
-        <article class="reveal bg-white p-5 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-blue-200 transition-all space-y-3 relative overflow-hidden group">
-            <div class="flex items-center justify-between">
-                <span class="bg-blue-50 text-[#1e3a5a] text-[10px] font-black px-2.5 py-1 rounded-md border border-blue-100/50 uppercase">
+        <article class="question-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-blue-200 transition-all group relative overflow-hidden" itemscope itemtype="https://schema.org/Question">
+            <div class="flex justify-between items-start mb-3">
+                <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                     ${q.category || "عام"}
                 </span>
-                <span class="text-[10px] text-slate-400 font-bold flex items-center gap-1">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    منذ فترة وجيزة
-                </span>
+                <span class="text-[10px] text-slate-400">#${q.id || 'Q'+Math.floor(Math.random()*1000)}</span>
             </div>
             
-            <h3 class="font-bold text-slate-800 text-base md:text-lg leading-snug">
-                <a href="${baseArticlePath}${q.url}" class="hover:text-blue-600 transition-colors">${q.title}</a>
+            <h3 class="font-bold text-slate-800 text-lg leading-snug mb-4" itemprop="name">
+                <a href="${baseArticlePath}${q.url}" class="group-hover:text-blue-600 transition-colors">
+                    ${q.title}
+                </a>
             </h3>
 
-            <div class="flex flex-wrap gap-1.5 py-1">
-                ${(q.tags || []).slice(0, 3).map(t => `<span class="text-[9px] bg-slate-50 text-slate-500 px-2 py-0.5 rounded border border-slate-100 italic">#${t}</span>`).join('')}
-            </div>
-
-            <div class="flex items-center justify-between text-[11px] pt-4 border-t border-slate-50 text-slate-500 font-bold">
-                <span class="flex items-center gap-1">
-                    <span class="w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center text-[10px]">✔</span> 
-                    إجابة معتمدة ببيت العلم
-                </span>
-                <a href="${baseArticlePath}${q.url}" class="bg-[#1e3a5a] text-white px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-all flex items-center gap-1">
-                    عرض الحل الكامل
+            <div class="flex items-center justify-between pt-4 border-t border-slate-50">
+                <div class="flex items-center gap-2 text-emerald-600">
+                    <div class="w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path></svg>
+                    </div>
+                    <span class="text-[11px] font-bold">إجابة معتمدة</span>
+                </div>
+                <a href="${baseArticlePath}${q.url}" class="text-xs font-bold text-blue-600 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    عرض الحل 
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 </a>
             </div>
         </article>
     `).join('');
 
-    initAnimations();
     manageInfiniteScroll(filtered.length, paginated.length);
 }
 
-// --- 5. التمرير اللانهائي (Infinite Scroll) ---
+// --- 5. التمرير اللانهائي الذكي (Infinite Scroll) ---
 function manageInfiniteScroll(total, current) {
     let loader = document.getElementById('infinite-loader');
     if (current < total) {
         if (!loader) {
             loader = document.createElement('div');
             loader.id = 'infinite-loader';
-            loader.className = 'py-10 text-center text-slate-400 text-[11px] font-black animate-pulse';
-            loader.innerText = 'جاري جلب المزيد من المعرفة...';
+            loader.className = 'py-8 text-center text-slate-400 text-xs font-bold animate-pulse';
+            loader.innerText = 'جاري تحميل المزيد من الإجابات...';
             selectors.questionsList.after(loader);
 
-            const obs = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) { currentPage++; renderQuestions(); }
-            }, { threshold: 0.1 });
-            obs.observe(loader);
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    currentPage++;
+                    renderQuestions();
+                }
+            }, { threshold: 0.5 });
+            observer.observe(loader);
         }
-    } else if (loader) loader.remove();
+    } else if (loader) {
+        loader.remove();
+    }
 }
 
-// --- 6. الأسئلة المقترحة (للصفحات الداخلية) ---
-function renderRelated() {
-    const relContainer = document.getElementById('related-questions');
-    if (!relContainer) return;
-    const currentFile = window.location.pathname.split("/").pop();
-    const related = allQuestions
-        .filter(q => !q.url.includes(currentFile))
-        .sort(() => 0.5 - Math.random()).slice(0, 4);
-
-    relContainer.innerHTML = `
-        <h4 class="text-sm font-black text-[#1e3a5a] mb-5 pr-3 border-r-4 border-orange-500">أسئلة قد تهمك في بيت العلم</h4>
-        <div class="grid sm:grid-cols-2 gap-4">
-            ${related.map(q => `
-                <a href="${q.url}" class="p-4 bg-white border border-slate-100 rounded-2xl hover:border-blue-500 hover:shadow-md transition-all shadow-sm group">
-                    <span class="text-xs font-bold text-slate-700 group-hover:text-blue-600 leading-relaxed">${q.title}</span>
-                </a>`).join('')}
-        </div>`;
-}
-
-// --- 7. إصلاح المسارات والتفاعلات الذكي ---
+// --- 6. معالجة الروابط والتفاعلات ---
 function setupInteractions() {
-    // إصلاح روابط الهيدر واللوجو تلقائياً
+    // إصلاح الروابط تلقائياً إذا كنا داخل مجلد فرعي
     if (isInsideQuestions) {
-        const rootPages = ['index.html', 'about.html', 'privacy.html'];
-        document.querySelectorAll('a').forEach(a => {
-            const h = a.getAttribute('href');
-            if (h && rootPages.includes(h)) a.setAttribute('href', '../' + h);
+        document.querySelectorAll('header a, footer a').forEach(a => {
+            const href = a.getAttribute('href');
+            if (href && !href.startsWith('http') && !href.startsWith('#')) {
+                a.setAttribute('href', '../' + href);
+            }
         });
     }
 
-    // تفعيل أزرار "مفيد"
-    document.body.addEventListener('click', (e) => {
-        const btn = e.target.closest('button');
-        if (btn && btn.innerText.includes("مفيد")) {
-            const countSpan = btn.querySelector('span:last-child');
-            if (countSpan && !btn.disabled) {
-                countSpan.innerText = (parseInt(countSpan.innerText) || 0) + 1;
-                btn.classList.add("text-emerald-600", "scale-105");
-                btn.disabled = true;
-                showToast("شكراً لك! تم تسجيل تقييمك بنجاح.");
-            }
-        }
+    // تأثير البحث السلس
+    selectors.searchInput?.addEventListener('focus', () => {
+        selectors.searchInput.parentElement.classList.add('ring-4', 'ring-blue-500/10');
+    });
+    selectors.searchInput?.addEventListener('blur', () => {
+        selectors.searchInput.parentElement.classList.remove('ring-4', 'ring-blue-500/10');
     });
 }
 
-// --- 8. تأثيرات الظهور التدريجي (Animations) ---
-function initAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('opacity-100', 'translate-y-0'); observer.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => {
-        el.classList.add('transition-all', 'duration-500', 'opacity-0', 'translate-y-4');
-        observer.observe(el);
-    });
+// --- 7. الأسئلة المقترحة (للصفحات الداخلية) ---
+function renderRelated() {
+    const container = document.getElementById('related-questions');
+    if (!container || allQuestions.length === 0) return;
+
+    const related = allQuestions
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4);
+
+    container.innerHTML = `
+        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <span class="w-1 h-5 bg-orange-500 rounded-full"></span>
+            أسئلة مشابهة في بيت العلم
+        </h3>
+        <div class="grid gap-3">
+            ${related.map(q => `
+                <a href="${q.url}" class="p-4 bg-slate-50 rounded-xl hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 transition-all block font-semibold text-sm text-slate-700">
+                    ${q.title}
+                </a>
+            `).join('')}
+        </div>`;
 }
-
-// --- 9. أداة تنبيه بسيطة (Toast) ---
-function showToast(msg) {
-    const toast = document.createElement('div');
-    toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#1e3a5a] text-white px-6 py-3 rounded-2xl text-xs font-bold shadow-2xl z-[100] transition-all duration-300 translate-y-20';
-    toast.innerText = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.classList.remove('translate-y-20'), 100);
-    setTimeout(() => { toast.classList.add('opacity-0'); setTimeout(() => toast.remove(), 500); }, 3000);
-}
-
-// --- 10. التشغيل النهائي ---
-document.addEventListener("DOMContentLoaded", () => {
-    initSelectors();
-    loadDatabase();
-    setupInteractions();
-
-    selectors.searchInput?.addEventListener('input', (e) => {
-        searchTerm = e.target.value.trim().toLowerCase();
-        currentPage = 1;
-        renderQuestions();
-    });
-});
