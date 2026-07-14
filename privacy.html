@@ -3,62 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سياسة الخصوصية - بيت العلم</title>
+    <title>سياسة الخصوصية | بيت العلم</title>
+    <meta name="robots" content="noindex, follow"> <!-- صفحات السياسة يفضل عدم أرشفتها كجزء من المحتوى ولكن تتبع روابطها -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f3f4f6; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        .glass-nav { background: rgba(30, 58, 90, 0.95); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body class="flex flex-col min-h-screen text-slate-800">
+<body class="flex flex-col min-h-screen text-slate-900">
 
-    <!-- Header المطور -->
-    <header class="bg-[#1e3a5a] text-white shadow-md sticky top-0 z-50">
+    <!-- الهيدر -->
+    <header class="glass-nav text-white sticky top-0 z-50 shadow-lg border-b border-white/10">
         <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-2 group">
-                <div class="bg-white p-1 rounded-lg transition-transform group-hover:scale-105">
-                    <svg class="w-6 h-6 text-[#1e3a5a]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+            <a href="/index.html" class="flex items-center gap-2 group">
+                <div class="bg-blue-500 p-1.5 rounded-lg transition-transform group-hover:rotate-12">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                 </div>
-                <span class="text-xl font-black tracking-tighter text-white">بيت العلم</span>
+                <span class="text-xl font-extrabold tracking-tight text-white">بيت العلم</span>
             </a>
-            <nav class="flex gap-6 text-sm font-bold items-center">
-                <a href="index.html" class="hover:text-sky-300 py-2 transition-colors">الرئيسية</a>
-                <a href="about.html" class="hover:text-sky-300 py-2 transition-colors">عن الموقع</a>
-                <a href="privacy.html" class="bg-[#2d4e75] px-4 py-2 rounded-lg flex items-center gap-2 text-white hover:bg-[#385e8a] transition-colors">سياسة الخصوصية</a>
+            <nav class="flex gap-4 md:gap-8 text-xs md:text-sm font-semibold">
+                <a href="/index.html" class="hover:text-blue-300 transition-colors">الرئيسية</a>
+                <a href="/about.html" class="hover:text-blue-300 transition-colors">من نحن</a>
+                <a href="/privacy.html" class="text-blue-400">سياسة الخصوصية</a>
             </nav>
         </div>
     </header>
 
-    <div class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full">
-        <article class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6">
-            <h1 class="text-3xl font-black text-[#1e3a5a] border-b pb-4">سياسة الخصوصية</h1>
-            <p class="text-slate-700 leading-relaxed">
-                في <strong>بيت العلم</strong>، نلتزم بحماية خصوصية زوارنا وأعضاء مجتمعنا المعرفي. توضح هذه الوثيقة طبيعة المعلومات التي نجمعها وكيفية حمايتها.
-            </p>
+    <!-- المحتوى -->
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-12">
+        <article class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100">
+            <h1 class="text-2xl font-extrabold text-[#1e3a5a] mb-8">سياسة الخصوصية</h1>
+            
+            <div class="space-y-6 text-slate-600 text-sm leading-relaxed">
+                <p>في <strong>بيت العلم</strong>، نولي خصوصية زوارنا أهمية بالغة. توضح هذه الوثيقة أنواع المعلومات الشخصية التي يتم جمعها وكيفية استخدامها.</p>
 
-            <h2 class="text-xl font-bold text-[#1e3a5a] pt-4">جمع المعلومات واستخدامها</h2>
-            <p class="text-slate-600 leading-relaxed">
-                نحن لا نطلب أو نجمع أي بيانات شخصية حساسة لتصفح الموقع. يتم جمع البيانات الإحصائية العامة غير المحددة للهوية (مثل عدد الزوار ونوع المتصفح) لتحسين مستوى الخدمة وتجربة المستخدم فقط.
-            </p>
+                <section>
+                    <h2 class="font-bold text-slate-800 text-base mb-2">ملفات السجل (Log Files)</h2>
+                    <p>مثل العديد من مواقع الويب الأخرى، يستخدم بيت العلم ملفات السجل. المعلومات داخل هذه الملفات تشمل بروتوكول الإنترنت (IP)، نوع المتصفح، مزود خدمة الإنترنت (ISP)، وطوابع الوقت، وذلك لتحليل الاتجاهات وإدارة الموقع.</p>
+                </section>
 
-            <h2 class="text-xl font-bold text-[#1e3a5a] pt-4">ملفات تعريف الارتباط (Cookies)</h2>
-            <p class="text-slate-600 leading-relaxed">
-                يستخدم الموقع ملفات تعريف الارتباط البسيطة لحفظ خيارات التصفح المفضلة لديك (مثل تذكر التقييمات كـ مفيد/غير مفيد) ولتسهيل تصفحك المستقبلي.
-            </p>
+                <section>
+                    <h2 class="font-bold text-slate-800 text-base mb-2">ملفات تعريف الارتباط (Cookies)</h2>
+                    <p>نحن نستخدم الكوكيز لتخزين المعلومات عن تفضيلات الزوار، وتسجيل معلومات محددة عن الصفحات التي يصل إليها المستخدم، وذلك لتقديم تجربة تصفح مخصصة وأكثر سرعة.</p>
+                </section>
 
-            <h2 class="text-xl font-bold text-[#1e3a5a] pt-4">أمن البيانات</h2>
-            <p class="text-slate-600 leading-relaxed">
-                نطبق معايير تقنية وأمنية مشددة لحماية سلامة وموثوقية موقع بيت العلم وضمان خلوه من أي برمجيات ضارة لسلامة متصفحينا الكرام.
-            </p>
+                <section>
+                    <h2 class="font-bold text-slate-800 text-base mb-2">نظام الإعلانات</h2>
+                    <p>قد يستخدم شركاء الإعلانات (مثل جوجل أدسنس) ملفات تعريف الارتباط لقياس فعالية إعلاناتهم. نحن لا نملك السيطرة على ملفات تعريف الارتباط التي يستخدمها المعلنون من طرف ثالث.</p>
+                </section>
+
+                <section>
+                    <h2 class="font-bold text-slate-800 text-base mb-2">حماية البيانات</h2>
+                    <p>نلتزم باتخاذ كافة الإجراءات التقنية اللازمة لحماية بياناتك من الوصول غير المصرح به أو التغيير أو الإفصاح.</p>
+                </section>
+
+                <div class="bg-blue-50 p-4 rounded-xl border-r-4 border-blue-500 mt-8">
+                    <p class="text-blue-800 font-semibold">باستخدامك لموقعنا، فإنك توافق على سياسة الخصوصية الخاصة بنا وشروط الاستخدام.</p>
+                </div>
+            </div>
         </article>
-    </div>
+    </main>
 
     <!-- الفوتر -->
-    <footer class="bg-[#1a3141] text-white/80 py-6 text-center text-xs border-t border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 space-y-3">
-            <p class="font-bold text-sm text-white">بيت العلم © 2026</p>
-            <p>جميع الحقوق محفوظة. بيت العلم (مجتمع المعرفة) - موسوعة المعرفة الموثوقة بمختلف المجالات التعليمية، الطبية، الاجتماعية والعلمية</p>
-        </div>
+    <footer class="bg-white border-t border-slate-200 py-8 text-center">
+        <p class="text-slate-400 text-xs">© 2026 بيت العلم. جميع الحقوق محفوظة.</p>
     </footer>
+
 </body>
 </html>
