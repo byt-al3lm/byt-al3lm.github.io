@@ -14,20 +14,27 @@
 </head>
 <body class="flex flex-col min-h-screen text-slate-900">
 
-    <!-- الهيدر -->
+   <!-- الهيدر (الملاحة) -->
     <header class="glass-nav text-white sticky top-0 z-50 shadow-lg border-b border-white/10">
         <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
             <a href="/index.html" class="flex items-center gap-2 group">
                 <div class="bg-blue-500 p-1.5 rounded-lg transition-transform group-hover:rotate-12">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                 </div>
-                <span class="text-xl font-extrabold tracking-tight text-white">بيت العلم</span>
+                <span class="text-xl font-extrabold tracking-tight">بيت العلم</span>
             </a>
-            <nav class="flex gap-4 md:gap-8 text-xs md:text-sm font-semibold">
-                <a href="/index.html" class="hover:text-blue-300 transition-colors">الرئيسية</a>
-                <a href="/about.html" class="text-blue-400">من نحن</a>
+            
+            <nav class="hidden md:flex gap-8 text-sm font-semibold">
+                <a href="/index.html" class="text-blue-400">الرئيسية</a>
+                <a href="/about.html" class="hover:text-blue-300 transition-colors">من نحن</a>
                 <a href="/privacy.html" class="hover:text-blue-300 transition-colors">سياسة الخصوصية</a>
             </nav>
+
+            <!-- زر الجوال (يظهر في الشاشات الصغيرة فقط) -->
+            <div class="md:hidden flex gap-4 text-xs font-bold">
+                 <a href="/about.html">من نحن</a>
+                 <a href="/privacy.html">الخصوصية</a>
+            </div>
         </div>
     </header>
 
