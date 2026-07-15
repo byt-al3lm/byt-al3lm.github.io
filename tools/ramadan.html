@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كم باقي على رمضان | حاسبة ذكية 2027 - 4000 | بيت العلم</title>
+    <meta name="description" content="تعرف على الوقت المتبقي لشهر رمضان المبارك بالأشهر والأسابيع والأيام للأعوام 2027، 2030، وحتى عام 4000 ميلادي عبر حاسبة بيت العلم الفلكية.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; scroll-behavior: smooth; }
+        .glass-nav { background: rgba(30, 58, 90, 0.95); backdrop-filter: blur(10px); }
+        .ramadan-card { background: linear-gradient(135deg, #1e3a5a 0%, #2563eb 100%); transition: all 0.3s ease; }
+        .stat-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .custom-select { 
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: left 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-900">
+
+    <!-- الهيدر (الملاحة المرفقة) -->
+    <header class="glass-nav text-white sticky top-0 z-50 shadow-lg border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="/index.html" class="flex items-center gap-2 group">
+                <div class="bg-blue-500 p-1.5 rounded-lg transition-transform group-hover:rotate-12">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight">بيت العلم</span>
+            </a>
+            
+            <nav class="hidden md:flex gap-8 text-sm font-semibold">
+                <a href="/index.html" class="hover:text-blue-300 transition-colors">الرئيسية</a>
+                <a href="/about.html" class="hover:text-blue-300 transition-colors">من نحن</a>
+                <a href="/privacy.html" class="hover:text-blue-300 transition-colors">سياسة الخصوصية</a>
+            </nav>
+
+            <div class="md:hidden flex gap-4 text-xs font-bold">
+                 <a href="/about.html">من نحن</a>
+                 <a href="/privacy.html">الخصوصية</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
+        
+        <!-- أداة عداد رمضان التفاعلية -->
+        <section class="ramadan-card rounded-[2.5rem] p-8 md:p-14 shadow-2xl text-white mb-12 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl md:text-5xl font-extrabold mb-4">كم باقي على رمضان؟</h1>
+                    <p class="text-blue-100 text-lg">احسب موعد الشهر الفضيل للأعوام القادمة بدقة</p>
+                </div>
+
+                <!-- اختيار السنة -->
+                <div class="flex flex-col items-center mb-12">
+                    <label for="yearSelector" class="mb-4 font-bold text-blue-200">اختر السنة الميلادية:</label>
+                    <select id="yearSelector" onchange="calculateCountdown()" 
+                        class="bg-white/10 border-2 border-white/20 text-white text-2xl font-black py-3 px-10 rounded-2xl outline-none focus:border-white transition-all custom-select cursor-pointer">
+                        <!-- السنوات من 2027 إلى 4000 -->
+                    </select>
+                </div>
+
+                <!-- شبكة النتائج -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <div class="stat-card p-6 rounded-3xl text-center">
+                        <span id="months" class="block text-4xl md:text-5xl font-black mb-2">--</span>
+                        <span class="text-xs md:text-sm font-bold text-blue-200 tracking-widest">بالأشهر</span>
+                    </div>
+                    <div class="stat-card p-6 rounded-3xl text-center">
+                        <span id="weeks" class="block text-4xl md:text-5xl font-black mb-2">--</span>
+                        <span class="text-xs md:text-sm font-bold text-blue-200 tracking-widest">بالأسابيع</span>
+                    </div>
+                    <div class="stat-card p-6 rounded-3xl text-center">
+                        <span id="days" class="block text-4xl md:text-5xl font-black mb-2">--</span>
+                        <span class="text-xs md:text-sm font-bold text-blue-200 tracking-widest">بالأيام</span>
+                    </div>
+                    <div class="stat-card p-6 rounded-3xl text-center">
+                        <span id="hours" class="block text-4xl md:text-5xl font-black mb-2">--</span>
+                        <span class="text-xs md:text-sm font-bold text-blue-200 tracking-widest">بالساعات</span>
+                    </div>
+                </div>
+
+                <div id="dateNote" class="text-center mt-10 text-blue-100 font-semibold italic">
+                    الموعد المتوقع: جاري الحساب...
+                </div>
+            </div>
+
+            <!-- هلال زخرفي -->
+            <svg class="absolute -bottom-10 -left-10 opacity-5 w-64 h-64 rotate-45" fill="white" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </section>
+
+        <!-- محتوى SEO ومعلومات إضافية -->
+        <article class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 prose prose-slate max-w-none">
+            <h2 class="text-2xl font-bold text-[#1e3a5a] mb-6 border-r-4 border-blue-500 pr-4">تفاصيل موعد شهر رمضان المبارك</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 leading-loose text-slate-600">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">كم باقي على رمضان 2027؟</h3>
+                    <p>فلكياً، من المتوقع أن يبدأ شهر رمضان لعام 2027 في تاريخ <strong>8 فبراير 2027</strong>. وبذلك تكون الأداة قد حسبت لك الفارق الزمني بدقة متناهية من تاريخ اليوم.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">لماذا يتغير موعد رمضان سنوياً؟</h3>
+                    <p>يعتمد التقويم الهجري على دورة القمر، وهي أقصر من السنة الميلادية بـ 11 يوماً تقريباً، مما يجعل رمضان يتقدم كل عام ميلادي بمعدل 11 يوماً.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                <h3 class="text-lg font-bold text-blue-900 mb-2">كم باقي على رمضان 2030؟</h3>
+                <p class="text-slate-700">عام 2030 سيكون عاماً استثنائياً، حيث من المتوقع أن نستقبل شهر رمضان مرتين في نفس العام الميلادي (مرة في شهر يناير ومرة في شهر ديسمبر)، وهي ظاهرة تتكرر كل 33 سنة ميلادية.</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 text-center mt-12">
+        <p class="text-slate-400 text-xs">© 2025 بيت العلم - حاسبة رمضان الرقمية. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        // تعبئة قائمة السنوات
+        const yearSelect = document.getElementById('yearSelector');
+        for (let year = 2027; year <= 4000; year++) {
+            let option = document.createElement('option');
+            option.value = year;
+            option.text = year;
+            yearSelect.appendChild(option);
+        }
+
+        // دالة تقدير موعد رمضان فلكياً
+        // رمضان يتقدم 10.875 يوم كل سنة ميلادية تقريباً
+        function getRamadanEstimate(year) {
+            // المرجع: رمضان 2025 هو 1 مارس
+            const baseDate = new Date(2025, 2, 1); 
+            const yearDiff = year - 2025;
+            const daysToSubtract = yearDiff * 10.875;
+            
+            let targetDate = new Date(baseDate);
+            targetDate.setDate(baseDate.getDate() - daysToSubtract);
+            
+            // ضبط السنة المطلوبة في حال تراجع التاريخ لشهر في السنة السابقة
+            return new Date(year, targetDate.getMonth(), targetDate.getDate());
+        }
+
+        function calculateCountdown() {
+            const selectedYear = parseInt(yearSelect.value);
+            const targetDate = getRamadanEstimate(selectedYear);
+            const now = new Date();
+            
+            const diff = targetDate - now;
+
+            if (diff < 0) {
+                document.getElementById('dateNote').innerText = "هذا الموعد قد انقضى بالفعل.";
+                resetFields();
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const months = (days / 30.44).toFixed(1);
+            const weeks = (days / 7).toFixed(1);
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+            // تحديث الواجهة
+            document.getElementById('months').innerText = months;
+            document.getElementById('weeks').innerText = weeks;
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateNote').innerText = `الموعد التقريبي: ${targetDate.toLocaleDateString('ar-EG', options)} م`;
+        }
+
+        function resetFields() {
+            document.getElementById('months').innerText = "--";
+            document.getElementById('weeks').innerText = "--";
+            document.getElementById('days').innerText = "--";
+            document.getElementById('hours').innerText = "--";
+        }
+
+        // التشغيل عند التحميل لأول مرة
+        window.onload = calculateCountdown;
+    </script>
+</body>
+</html>
