@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كم باقي على العيد 2027 | عداد عيد الفطر والأضحى الذكي | بيت العلم</title>
+    <meta name="description" content="تعرف على كم باقي على عيد الفطر وعيد الأضحى (عيد الحج) لعام 2027 و 2030 وجميع السنوات القادمة. أدق عداد تنازلي للأعياد في السعودية والعالم العربي.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; scroll-behavior: smooth; }
+        .glass-nav { background: rgba(30, 58, 90, 0.95); backdrop-filter: blur(10px); }
+        /* ألوان الموقع: التدرج الأزرق الخاص ببيت العلم */
+        .beit-gradient { background: linear-gradient(135deg, #1e3a5a 0%, #2563eb 100%); }
+        .stat-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease; }
+        .stat-card:hover { transform: translateY(-5px); }
+        select { cursor: pointer; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-900">
+
+    <!-- الهيدر (نفس الهيدر المرفق تماماً) -->
+    <header class="glass-nav text-white sticky top-0 z-50 shadow-lg border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="/index.html" class="flex items-center gap-2 group">
+                <div class="bg-blue-500 p-1.5 rounded-lg transition-transform group-hover:rotate-12">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight">بيت العلم</span>
+            </a>
+            
+            <nav class="hidden md:flex gap-8 text-sm font-semibold">
+                <a href="/index.html" class="text-blue-400">الرئيسية</a>
+                <a href="/about.html" class="hover:text-blue-300 transition-colors">من نحن</a>
+                <a href="/privacy.html" class="hover:text-blue-300 transition-colors">سياسة الخصوصية</a>
+            </nav>
+
+            <div class="md:hidden flex gap-4 text-xs font-bold">
+                 <a href="/about.html">من نحن</a>
+                 <a href="/privacy.html">الخصوصية</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
+        
+        <!-- قسم الأداة (بنفس هوية الأداة السابقة) -->
+        <section class="beit-gradient rounded-[2.5rem] p-8 md:p-14 shadow-2xl text-white mb-12 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="text-center mb-10">
+                    <h1 id="mainTitle" class="text-3xl md:text-5xl font-extrabold mb-4 italic">كم باقي على العيد؟</h1>
+                    <p class="text-blue-100 text-lg">العد التنازلي لموعد عيد الفطر وعيد الأضحى فلكياً</p>
+                </div>
+
+                <!-- خيارات الأداة -->
+                <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-12">
+                    <div class="flex flex-col">
+                        <label class="mb-2 text-sm font-bold text-blue-200 mr-2">نوع العيد:</label>
+                        <select id="eidType" onchange="calculateEid()" class="bg-white/10 border-2 border-white/20 p-3 rounded-xl outline-none focus:bg-white/20 transition-all font-bold text-white">
+                            <option value="fitr" class="text-slate-900">عيد الفطر المبارك</option>
+                            <option value="adha" class="text-slate-900">عيد الأضحى (عيد الحج)</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="mb-2 text-sm font-bold text-blue-200 mr-2">اختر السنة:</label>
+                        <select id="yearSelect" onchange="calculateEid()" class="bg-white/10 border-2 border-white/20 p-3 rounded-xl outline-none focus:bg-white/20 transition-all font-bold text-white">
+                            <!-- سنوات من 2027 إلى 2040 -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- عرض العداد -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <div class="stat-card p-6 rounded-3xl text-center">
+                        <span id="days" class="block text-4xl md:text-6xl font-black mb-1">--</span>
+                        <span class="text-xs font-bold text-blue-200 uppercase tracking-widest">يوم</span>
+                    </div>
+                    <div class="stat-card p-6 rounded-3xl text-center">
+                        <span id="weeks" class="block text-4xl md:text-6xl font-black mb-1">--</span>
+                        <span class="text-xs font-bold text-blue-200 uppercase tracking-widest">أسبوع</span>
+                    </div>
+                    <div class="stat-card p-6 rounded-3xl text-center">
+                        <span id="hours" class="block text-4xl md:text-6xl font-black mb-1">--</span>
+                        <span class="text-xs font-bold text-blue-200 uppercase tracking-widest">ساعة</span>
+                    </div>
+                    <div class="stat-card p-6 rounded-3xl text-center">
+                        <span id="minutes" class="block text-4xl md:text-6xl font-black mb-1">--</span>
+                        <span class="text-xs font-bold text-blue-200 uppercase tracking-widest">دقيقة</span>
+                    </div>
+                </div>
+
+                <div id="resultDate" class="text-center mt-10 text-blue-100 font-bold text-lg bg-black/20 py-3 px-6 rounded-2xl inline-block w-full">
+                    الموعد المتوقع: جاري الحساب...
+                </div>
+            </div>
+            
+            <!-- هلال زخرفي -->
+            <div class="absolute -bottom-10 -left-10 opacity-10 rotate-12">
+                <svg width="300" height="300" fill="white" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            </div>
+        </section>
+
+        <!-- محتوى SEO المكثف للتصدر -->
+        <article class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 prose prose-slate max-w-none">
+            <h2 class="text-2xl font-bold text-[#1e3a5a] mb-6 border-r-4 border-blue-500 pr-4">تفاصيل كم باقي على عيد الفطر والاضحى</h2>
+            <p class="leading-relaxed text-slate-600">
+                يبحث الملايين سنوياً عن سؤال <strong>كم باقي على عيد الفطر</strong> أو <strong>كم باقي على عيد الحج</strong> لتنظيم إجازاتهم واستعداداتهم. هنا في بيت العلم، نوفر لك إجابة دقيقة حول <strong>كم باقي على العيد 2027</strong> وما بعدها من السنوات مثل <strong>كم باقي على العيد 2030</strong>.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 my-8">
+                <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                    <h3 class="text-blue-800 font-bold mb-3">موعد عيد الأضحى 2027</h3>
+                    <p class="text-sm">من المتوقع فلكياً أن يبدأ <strong>عيد الأضحى لعام 2027</strong> في منتصف شهر مايو، وتحديداً يوم الأحد 16 مايو 2027، وهذا التاريخ تقريبي يعتمد على رؤية الهلال.</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                    <h3 class="text-blue-800 font-bold mb-3">موعد عيد الفطر 2027</h3>
+                    <p class="text-sm">أما بخصوص <strong>كم باقي على عيد الفطر 2027</strong>، فمن المتوقع أن يوافق أول أيام العيد يوم الأربعاء 10 مارس 2027.</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-800 mb-4">لماذا تختلف المواعيد سنوياً؟</h3>
+            <p class="text-slate-600 leading-loose">
+                يتقدم العيد كل عام بمقدار 11 يوماً في التقويم الميلادي لأن السنة الهجرية أقصر من السنة الميلادية. أداتنا تقوم بحساب هذا الفارق لتعطيك نتيجة <strong>كم باقي على العيد الأضحى</strong> بالأيام والأسابيع.
+            </p>
+        </article>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 text-center mt-12">
+        <p class="text-slate-400 text-xs">© 2025 بيت العلم - المصدر الموثوق للمواعيد والتقويم. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        // تعبئة قائمة السنوات من 2027
+        const yearSelect = document.getElementById('yearSelect');
+        for (let y = 2027; y <= 2040; y++) {
+            let opt = document.createElement('option');
+            opt.value = y;
+            opt.text = `سنة ${y}`;
+            if(y === 2027) opt.selected = true;
+            yearSelect.appendChild(opt);
+        }
+
+        function calculateEid() {
+            const year = parseInt(yearSelect.value);
+            const type = document.getElementById('eidType').value;
+            const now = new Date();
+            
+            // معادلة تقديرية دقيقة (رمضان والأضحى يتراجعان 10.87 يوم سنوياً)
+            // المرجع: عيد الفطر 2025 (31 مارس) | عيد الأضحى 2025 (7 يونيو)
+            const baseYear = 2025;
+            const diffYears = year - baseYear;
+            const shiftDays = diffYears * 10.875;
+
+            let targetDate;
+            if(type === 'fitr') {
+                targetDate = new Date(baseYear, 2, 31); // 31 مارس
+                document.getElementById('mainTitle').innerText = "كم باقي على عيد الفطر " + year;
+            } else {
+                targetDate = new Date(baseYear, 5, 7); // 7 يونيو
+                document.getElementById('mainTitle').innerText = "كم باقي على عيد الأضحى " + year;
+            }
+
+            targetDate.setDate(targetDate.getDate() - shiftDays);
+            
+            // ضبط السنة لتكون السنة المختارة (لأن Date JS قد يغير السنة عند الطرح)
+            const finalDate = new Date(year, targetDate.getMonth(), targetDate.getDate());
+            
+            const diffTime = finalDate - now;
+
+            if (diffTime < 0) {
+                document.getElementById('days').innerText = "0";
+                document.getElementById('resultDate').innerText = "انقضى موعد العيد فلكياً لهذه السنة.";
+                return;
+            }
+
+            const d = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const w = (d / 7).toFixed(1);
+            const h = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diffTime / (1000 * 60)) % 60);
+
+            document.getElementById('days').innerText = d;
+            document.getElementById('weeks').innerText = w;
+            document.getElementById('hours').innerText = h;
+            document.getElementById('minutes').innerText = m;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('resultDate').innerText = "الموعد المتوقع: " + finalDate.toLocaleDateString('ar-SA', options) + " م";
+        }
+
+        // التحديث التلقائي
+        setInterval(calculateEid, 60000);
+        window.onload = calculateEid;
+    </script>
+</body>
+</html>
