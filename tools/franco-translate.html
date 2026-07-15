@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مترجم فرانكو: ترجمة فرانكو للعربي وتحويل الحروف والأرقام | بيت العلم</title>
+    <meta name="description" content="أفضل مترجم فرانكو لتحويل اللغة العربية إلى فرانكو وبالعكس. استخدم كيبورد الفرانكو، ترجمة فرانكو جوجل، وفهم حروف وأرقام الفرانكو بسهولة وبدون تحميل.">
+    <meta name="keywords" content="ترجمه فرانكو, ترجمة فرانكو, فرانكو حروف, ترجمة فرانكو جوجل, كيبورد تحويل اللغة العربية الى فرانكو, فرانكو أرقام, لوحة فرانكو, ترجمة فرانكو الانجليزي, تنزيل ترجمة فرانكو, مترجم فرانكو">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        .glass-nav { background: rgba(30, 58, 90, 0.95); backdrop-filter: blur(10px); }
+        .dream-card { transition: all 0.3s ease; }
+        textarea { resize: none; transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-900">
+
+    <!-- الهيدر -->
+    <header class="glass-nav text-white sticky top-0 z-50 shadow-lg border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="bg-indigo-600 p-1.5 rounded-lg transition-transform group-hover:rotate-12">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5c-1.383 4.512-4.874 8.328-8.751 11"></path></svg>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight">بيت العلم</span>
+            </a>
+            <nav class="hidden md:flex gap-8 text-sm font-semibold">
+                <a href="#" class="text-indigo-400">الرئيسية</a>
+                <a href="#article" class="hover:text-indigo-300">كيفية الترجمة</a>
+                <a href="#table" class="hover:text-indigo-300">قاموس الأرقام</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
+        
+        <!-- أداة الترجمة التفاعلية -->
+        <section class="bg-white p-6 md:p-10 rounded-3xl shadow-xl border border-indigo-50 mb-12 dream-card">
+            <div class="text-center mb-8">
+                <h1 class="text-2xl md:text-4xl font-extrabold text-[#1e3a5a] mb-4">مترجم فرانكو ذكي</h1>
+                <p class="text-slate-500 text-lg">تحويل فوري عبر <strong>كيبورد تحويل اللغة العربية الى فرانكو</strong></p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 relative">
+                
+                <!-- منطقة الفرانكو -->
+                <div class="franco-area space-y-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent transition-all">
+                    <div class="flex justify-between items-center">
+                        <label id="franco-label" class="text-sm font-bold text-indigo-700">فرانكو (من)</label>
+                        <button id="franco-copy-btn" class="p-2 hover:bg-indigo-100 rounded-lg text-indigo-600 transition-colors" title="نسخ">
+                            <svg id="franco-copy-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 3h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            <svg id="franco-check-icon" class="w-5 h-5 hidden text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </button>
+                    </div>
+                    <textarea id="franco-input" class="w-full bg-transparent outline-none text-lg min-h-[150px]" placeholder="مثال: salam ya sa7bi..."></textarea>
+                </div>
+
+                <!-- زر التبديل (Swap) في الوسط -->
+                <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                    <button id="swap-btn" class="bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:rotate-180 transition-all duration-500 active:scale-90">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    </button>
+                </div>
+
+                <!-- منطقة العربي -->
+                <div class="arabic-area space-y-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent transition-all">
+                    <div class="flex justify-between items-center">
+                        <label id="arabic-label" class="text-sm font-bold text-indigo-700">عربي (إلى)</label>
+                        <button id="arabic-copy-btn" class="p-2 hover:bg-indigo-100 rounded-lg text-indigo-600 transition-colors" title="نسخ">
+                            <svg id="arabic-copy-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 3h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            <svg id="arabic-check-icon" class="w-5 h-5 hidden text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </button>
+                    </div>
+                    <textarea id="arabic-input" class="w-full bg-transparent outline-none text-lg min-h-[150px]" placeholder="مثال: سلام يا صاحبي..."></textarea>
+                </div>
+            </div>
+
+            <!-- أزرار التحكم السفلى -->
+            <div class="flex flex-col md:flex-row gap-4 mt-8">
+                <button id="translate-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95 flex justify-center items-center gap-2 text-xl">
+                    <span>ترجمة النص الآن</span>
+                </button>
+                <button id="clear-btn" class="px-8 py-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-all">
+                    مسح الكل
+                </button>
+            </div>
+        </section>
+
+        <!-- محتوى SEO مطول -->
+        <article id="article" class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 prose prose-slate max-w-none">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 border-r-4 border-indigo-500 pr-4">دليلك الشامل لـ ترجمة فرانكو بالعربي</h2>
+            <p class="leading-loose text-slate-600 mb-6">
+                إذا كنت تبحث عن <strong>ترجمه فرانكو</strong> دقيقة، فقد وصلت إلى المكان الصحيح. نظام الفرانكو هو طريقة لكتابة اللغة العربية باستخدام الحروف اللاتينية والأرقام، ويُعرف أيضاً بـ "عربيزي". يستخدم موقعنا خوارزميات متطورة لمحاكاة <strong>ترجمة فرانكو جوجل</strong> لضمان فهم النصوص وتحويلها بدقة عالية.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-800 mb-4">ما هي حروف وأرقام الفرانكو؟</h3>
+            <p class="leading-loose text-slate-600 mb-6">
+                تعتمد <strong>لوحة فرانكو</strong> على استخدام أرقام لتمثيل حروف عربية لا يوجد لها مقابل صوتي مباشر في الإنجليزية، مثل:
+            </p>
+            <div id="table" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="p-3 bg-indigo-50 rounded-lg text-center font-bold text-indigo-800 border border-indigo-100">3 = ع</div>
+                <div class="p-3 bg-indigo-50 rounded-lg text-center font-bold text-indigo-800 border border-indigo-100">7 = ح</div>
+                <div class="p-3 bg-indigo-50 rounded-lg text-center font-bold text-indigo-800 border border-indigo-100">5 = خ</div>
+                <div class="p-3 bg-indigo-50 rounded-lg text-center font-bold text-indigo-800 border border-indigo-100">2 = أ / ء</div>
+                <div class="p-3 bg-indigo-50 rounded-lg text-center font-bold text-indigo-800 border border-indigo-100">9 = ص</div>
+                <div class="p-3 bg-indigo-50 rounded-lg text-center font-bold text-indigo-800 border border-indigo-100">6 = ط</div>
+                <div class="p-3 bg-indigo-50 rounded-lg text-center font-bold text-indigo-800 border border-indigo-100">8 = ق</div>
+                <div class="p-3 bg-indigo-50 rounded-lg text-center font-bold text-indigo-800 border border-indigo-100">4 = ش</div>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-800 mb-4">لماذا نستخدم مترجم فرانكو في بيت العلم؟</h3>
+            <p class="leading-loose text-slate-600 mb-6">
+                بدلاً من الحاجة إلى <strong>تنزيل ترجمة فرانكو</strong> كتطبيق يستهلك مساحة هاتفك، نوفر لك أداة تعمل مباشرة عبر المتصفح. تتيح لك الأداة <strong>ترجمة فرانكو الانجليزي</strong> بمرونة تامة، سواء كنت تريد تحويل محادثاتك القديمة إلى لغة عربية فصحى أو تريد تعلم كيفية الكتابة بالفرانكو.
+            </p>
+
+            <div class="bg-slate-900 text-white p-8 rounded-2xl">
+                <h4 class="text-lg font-bold mb-4 text-indigo-400">مميزات كيبورد الفرانكو لدينا:</h4>
+                <ul class="space-y-3 text-slate-300">
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-indigo-500 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>تحويل فوري وتلقائي أثناء الكتابة.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-indigo-500 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>دعم كامل لجميع <strong>فرانكو أرقام</strong> وحروف.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-indigo-500 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>إمكانية التبديل بين اللغتين بضغطة زر واحدة.</span>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 text-center mt-12">
+        <p class="text-slate-400 text-xs">© 2025 بيت العلم - أداة ترجمة الفرانكو الاحترافية. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- منطق البرمجة المدمج -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        let sourceLanguage = urlParams.get('from') === 'arabic' ? 'arabic' : 'franco';
+        let copied = null;
+        let translateTimeout;
+
+        const francoInput = document.getElementById('franco-input');
+        const arabicInput = document.getElementById('arabic-input');
+        const francoLabel = document.getElementById('franco-label');
+        const arabicLabel = document.getElementById('arabic-label');
+        const francoCopyBtn = document.getElementById('franco-copy-btn');
+        const arabicCopyBtn = document.getElementById('arabic-copy-btn');
+        const francoCopyIcon = document.getElementById('franco-copy-icon');
+        const francoCheckIcon = document.getElementById('franco-check-icon');
+        const arabicCopyIcon = document.getElementById('arabic-copy-icon');
+        const arabicCheckIcon = document.getElementById('arabic-check-icon');
+        const translateBtn = document.getElementById('translate-btn');
+        const swapBtn = document.getElementById('swap-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const francoArea = document.querySelector('.franco-area');
+        const arabicArea = document.querySelector('.arabic-area');
+        
+        const francoMap = {
+          'gh': 'غ', 'kh': 'خ', 'sh': 'ش', 'th': 'ث', 'dh': 'ذ', 'zh': 'ژ',
+          '2': 'ء', '3': 'ع', '4': 'ش', '5': 'خ', '6': 'ط', '7': 'ح', '8': 'ق', '9': 'ص',
+          'a': 'ا', 'b': 'ب', 'c': 'ك', 'd': 'د', 'e': 'ي', 'f': 'ف', 'g': 'ج', 'h': 'ه',
+          'i': 'ي', 'j': 'ج', 'k': 'ك', 'l': 'ل', 'm': 'م', 'n': 'ن', 'o': 'و', 'p': 'ب',
+          'q': 'ق', 'r': 'ر', 's': 'س', 't': 'ت', 'u': 'و', 'v': 'ف', 'w': 'و', 'x': 'كس',
+          'y': 'ي', 'z': 'ز',
+        };
+
+        const arabicMap = {
+          'ا': 'a', 'أ': '2', 'إ': 'e', 'آ': 'a', 'ب': 'b', 'ت': 't', 'ث': 'th',
+          'ج': 'g', 'ح': '7', 'خ': '5', 'د': 'd', 'ذ': 'z', 'ر': 'r', 'ز': 'z',
+          'س': 's', 'ش': 'sh', 'ص': '9', 'ض': 'd', 'ط': '6', 'ظ': 'z', 'ع': '3',
+          'غ': 'gh', 'ف': 'f', 'ق': '8', 'ك': 'k', 'ل': 'l', 'م': 'm', 'ن': 'n',
+          'ه': 'h', 'ة': 'a', 'و': 'w', 'ي': 'y', 'ى': 'a', 'ء': '2',
+          'ئ': 'e', 'ؤ': 'o', 'ة': 'a', 'ى': 'a',
+        };
+
+        const translateFrancoToArabic = (text) => {
+          let result = text.toLowerCase();
+          const sortedFrancoKeys = Object.keys(francoMap).sort((a, b) => b.length - a.length);
+          for (const key of sortedFrancoKeys) {
+            result = result.replace(new RegExp(key, 'g'), francoMap[key]);
+          }
+          return result;
+        };
+
+        const translateArabicToFranco = (text) => {
+          let result = text;
+          const sortedArabicKeys = Object.keys(arabicMap).sort((a, b) => b.length - a.length);
+          for (const key of sortedArabicKeys) {
+            result = result.replace(new RegExp(key, 'g'), arabicMap[key]);
+          }
+          return result;
+        };
+
+        const updateUI = () => {
+          francoLabel.textContent = sourceLanguage === 'franco' ? 'فرانكو (من)' : 'فرانكو (إلى)';
+          arabicLabel.textContent = sourceLanguage === 'arabic' ? 'عربي (من)' : 'عربي (إلى)';
+
+          if (sourceLanguage === 'franco') {
+            francoArea.classList.add('ring-2', 'ring-indigo-500', 'border-indigo-500');
+            arabicArea.classList.remove('ring-2', 'ring-indigo-500', 'border-indigo-500');
+          } else {
+            arabicArea.classList.add('ring-2', 'ring-indigo-500', 'border-indigo-500');
+            francoArea.classList.remove('ring-2', 'ring-indigo-500', 'border-indigo-500');
+          }
+
+          francoCopyIcon.classList.toggle('hidden', copied === 'franco');
+          francoCheckIcon.classList.toggle('hidden', copied !== 'franco');
+          arabicCopyIcon.classList.toggle('hidden', copied === 'arabic');
+          arabicCheckIcon.classList.toggle('hidden', copied !== 'arabic');
+        };
+
+        const translate = () => {
+          clearTimeout(translateTimeout);
+          const textToTranslate = sourceLanguage === 'franco' ? francoInput.value.trim() : arabicInput.value.trim();
+          if (!textToTranslate) {
+            if (sourceLanguage === 'franco') { arabicInput.value = ''; } else { francoInput.value = ''; }
+            updateUI();
+            return;
+          }
+          const result = sourceLanguage === 'franco' ? translateFrancoToArabic(textToTranslate) : translateArabicToFranco(textToTranslate);
+          if (sourceLanguage === 'franco') { arabicInput.value = result; } else { francoInput.value = result; }
+          updateUI();
+        };
+
+        const debouncedTranslate = () => {
+          clearTimeout(translateTimeout);
+          translateTimeout = setTimeout(translate, 300);
+        };
+        
+        francoInput.addEventListener('input', () => { sourceLanguage = 'franco'; debouncedTranslate(); updateUI(); });
+        arabicInput.addEventListener('input', () => { sourceLanguage = 'arabic'; debouncedTranslate(); updateUI(); });
+        translateBtn.addEventListener('click', translate);
+        swapBtn.addEventListener('click', () => {
+          const fv = francoInput.value; const av = arabicInput.value;
+          francoInput.value = av; arabicInput.value = fv;
+          sourceLanguage = sourceLanguage === 'franco' ? 'arabic' : 'franco';
+          translate(); updateUI();
+        });
+
+        clearBtn.addEventListener('click', () => {
+          francoInput.value = ''; arabicInput.value = '';
+          sourceLanguage = 'franco'; copied = null; updateUI();
+        });
+        
+        const copyToClipboard = (type) => {
+          const text = type === 'franco' ? francoInput.value : arabicInput.value;
+          if (!text.trim()) return;
+          navigator.clipboard.writeText(text).then(() => {
+              copied = type; updateUI();
+              setTimeout(() => { copied = null; updateUI(); }, 2000);
+          });
+        };
+
+        francoCopyBtn.addEventListener('click', () => copyToClipboard('franco'));
+        arabicCopyBtn.addEventListener('click', () => copyToClipboard('arabic'));
+
+        updateUI();
+      });
+    </script>
+</body>
+</html>
