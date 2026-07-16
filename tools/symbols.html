@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رموز للنسخ 𓆩𓆪 رموز زخرفة نادرة ومزخرفة 2025 | بيت العلم</title>
+    <meta name="description" content="أكبر مكتبة رموز للنسخ: رموز زخرفة، رموز نادرة، رموز قلوب، رموز فري فاير ɵ̷̥̥᷄ˬɵ̷̥̥᷅، ورموز زخرفة انستا. انسخ الرموز المزخرفة بضغطة زر واحدة.">
+    <meta name="keywords" content="رموز للنسخ, رموز زخرفة, رموز نادرة للنسخ, رموز ɵ̷̥̥᷄ˬɵ̷̥̥᷅ للنسخ, 𓆩𓆪 رموز للنسخ, رموز فري فاير, رموز قلوب">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; scroll-behavior: smooth; }
+        .glass-nav { background: rgba(30, 58, 90, 0.95); backdrop-filter: blur(10px); }
+        .symbol-card { 
+            background: white; 
+            transition: all 0.2s ease; 
+            cursor: pointer; 
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            min-height: 60px;
+        }
+        .symbol-card:hover { 
+            transform: scale(1.1); 
+            border-color: #3b82f6; 
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+            z-index: 10;
+        }
+        .symbol-card:active { transform: scale(0.95); }
+        .copy-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e3a5a;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .category-btn {
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        .category-btn.active {
+            background-color: #2563eb;
+            color: white;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-900">
+
+      <!-- الهيدر (الملاحة) -->
+    <header class="glass-nav text-white sticky top-0 z-50 shadow-lg border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="/index.html" class="flex items-center gap-2 group">
+                <div class="bg-blue-500 p-1.5 rounded-lg transition-transform group-hover:rotate-12">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight">بيت العلم</span>
+            </a>
+            
+            <nav class="hidden md:flex gap-8 text-sm font-semibold">
+                <a href="/index.html" class="text-blue-400">الرئيسية</a>
+                <a href="/about.html" class="hover:text-blue-300 transition-colors">من نحن</a>
+                <a href="/privacy.html" class="hover:text-blue-300 transition-colors">سياسة الخصوصية</a>
+            </nav>
+
+            <!-- زر الجوال (يظهر في الشاشات الصغيرة فقط) -->
+            <div class="md:hidden flex gap-4 text-xs font-bold">
+                 <a href="/about.html">من نحن</a>
+                 <a href="/privacy.html">الخصوصية</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+        
+        <!-- قسم الأداة الرئيسي -->
+        <section class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-[#1e3a5a] mb-4">رموز للنسخ والزخرفة</h1>
+            <p class="text-slate-500 text-lg mb-8">اضغط على أي رمز لنسخه فوراً | رموز نادرة، مزخرفة، وفري فاير</p>
+            
+            <!-- شريط البحث والتصنيف -->
+            <div class="flex overflow-x-auto gap-3 pb-4 mb-8 no-scrollbar">
+                <button onclick="filterCategory('all')" class="category-btn active px-6 py-2 rounded-full border border-blue-200 font-bold shadow-sm">الكل</button>
+                <button onclick="filterCategory('popular')" class="category-btn px-6 py-2 rounded-full border border-blue-200 font-bold shadow-sm">الأكثر طلباً</button>
+                <button onclick="filterCategory('ff')" class="category-btn px-6 py-2 rounded-full border border-blue-200 font-bold shadow-sm">فري فاير</button>
+                <button onclick="filterCategory('hearts')" class="category-btn px-6 py-2 rounded-full border border-blue-200 font-bold shadow-sm">قلوب وحب</button>
+                <button onclick="filterCategory('stars')" class="category-btn px-6 py-2 rounded-full border border-blue-200 font-bold shadow-sm">نجوم وأزهار</button>
+                <button onclick="filterCategory('islamic')" class="category-btn px-6 py-2 rounded-full border border-blue-200 font-bold shadow-sm">إسلامية</button>
+            </div>
+
+            <!-- شبكة الرموز -->
+            <div id="symbolsGrid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
+                <!-- سيتم ملء الرموز بواسطة JavaScript -->
+            </div>
+        </section>
+
+        <!-- محتوى SEO مطول -->
+        <article class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 prose prose-slate max-w-none">
+            <h2 class="text-2xl font-bold text-[#1e3a5a] mb-6 border-r-4 border-blue-500 pr-4">أفضل رموز للنسخ وزخرفة الأسماء 2025</h2>
+            <p class="leading-loose text-slate-600 mb-6">
+                مرحباً بكم في مكتبة **بيت العلم** الشاملة التي تتيح لكم الحصول على **رموز للنسخ** بضغطة زر واحدة. سواء كنت تبحث عن **رموز زخرفة** لاستخدامها في حسابات التواصل الاجتماعي، أو **رموز نادرة للنسخ** لتمييز اسمك في الألعاب، فقد جمعنا لك كل ما تحتاجه في مكان واحد.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-800 mb-4">رموز ɵ̷̥̥᷄ˬɵ̷̥̥᷅ للنسخ وفري فاير</h3>
+            <p class="text-slate-600 mb-6 italic">
+                تعتبر **رموز ɵ̷̥̥᷄ˬɵ̷̥̥᷅ للنسخ فري فاير** من أكثر الرموز طلباً لتزيين أسماء اللاعبين (Nicknames)، بالإضافة إلى **𓆩𓆪 رموز للنسخ** التي تعطي طابعاً فخماً للاسم. يمكنك أيضاً العثور على **رمز الجناحين للنسخ** و **رمز سيف للنسخ** لتصميم شعارات احترافية لملفك الشخصي.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="p-6 bg-blue-50 rounded-2xl">
+                    <h4 class="font-bold mb-2">رموز زخرفة انستا</h4>
+                    <p class="text-sm">استخدم **رموز مزخرفة للنسخ** و **رمز فراشة للنسخ** لتجميل السيرة الذاتية (Bio) في انستقرام وجذب المتابعين بلمسة جمالية نادرة.</p>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-2xl">
+                    <h4 class="font-bold mb-2">رموز قلوب وحب</h4>
+                    <p class="text-sm">نوفر باقة من **رموز قلوب مزخرفة للنسخ** و **رموز حب للنسخ** بأشكال متنوعة (♡, ♥, ❣) لتعبير أدق عن مشاعرك في المحادثات.</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-800 mb-4">لماذا تستخدم رموز الزخرفة من بيت العلم؟</h3>
+            <ul class="list-disc pr-6 text-slate-600 space-y-2">
+                <li>**رموز زخرفة للنسخ** متوافقة مع جميع الأجهزة (أيفون، أندرويد، كمبيوتر).</li>
+                <li>تضم الأداة **رموز نجوم للنسخ** و **رموز نقاط للنسخ** لتنظيم النصوص بشكل احترافي.</li>
+                <li>سهولة الاستخدام: فقط اضغط على الرمز وسيتم نسخه تلقائياً إلى الحافظة.</li>
+            </ul>
+        </article>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 text-center mt-12">
+        <p class="text-slate-400 text-xs">© 2025 بيت العلم - مكتبة الرموز العربية. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- توست النسخ -->
+    <div id="toast" class="copy-toast">تم نسخ الرمز بنجاح!</div>
+
+    <script>
+        // مصفوفة الرموز المصنفة
+        const symbolsData = [
+            { char: 'ɵ̷̥̥᷄ˬɵ̷̥̥᷅', cat: 'ff popular' },
+            { char: '𓆩𓆪', cat: 'ff popular' },
+            { char: '𓆩♡𓆪', cat: 'ff popular hearts' },
+            { char: '🦋', cat: 'popular' },
+            { char: '⚔️', cat: 'ff' },
+            { char: '﷽', cat: 'islamic popular' },
+            { char: 'ﷻ', cat: 'islamic' },
+            { char: '☪️', cat: 'islamic' },
+            { char: '۝', cat: 'islamic' },
+            { char: '۞', cat: 'islamic' },
+            { char: '۩', cat: 'islamic' },
+            { char: '♡', cat: 'hearts popular' },
+            { char: '♥', cat: 'hearts' },
+            { char: '❣', cat: 'hearts' },
+            { char: '❤', cat: 'hearts' },
+            { char: '❦', cat: 'hearts' },
+            { char: '❧', cat: 'hearts' },
+            { char: '★', cat: 'stars popular' },
+            { char: '☆', cat: 'stars' },
+            { char: '❂', cat: 'stars' },
+            { char: '❃', cat: 'stars' },
+            { char: '✿', cat: 'stars' },
+            { char: '❀', cat: 'stars' },
+            { char: '❆', cat: 'stars' },
+            { char: '♛', cat: 'ff' },
+            { char: '♚', cat: 'ff' },
+            { char: '卍', cat: 'ff' },
+            { char: '卐', cat: 'ff' },
+            { char: '†', cat: 'rare' },
+            { char: '∞', cat: 'rare' },
+            { char: '≈', cat: 'rare' },
+            { char: '░', cat: 'rare' },
+            { char: '▒', cat: 'rare' },
+            { char: '▓', cat: 'rare' },
+            { char: '█', cat: 'rare' },
+            { char: 'ツ', cat: 'ff' },
+            { char: 'ㄨ', cat: 'ff' },
+            { char: '㊝', cat: 'rare' },
+            { char: '㊣', cat: 'rare' },
+            { char: '●', cat: 'stars' },
+            { char: '⦿', cat: 'stars' },
+            { char: '❶', cat: 'rare' },
+            { char: '❷', cat: 'rare' },
+            { char: '❸', cat: 'rare' },
+            { char: '❹', cat: 'rare' },
+            { char: '❺', cat: 'rare' },
+            { char: '❻', cat: 'rare' },
+            { char: '❼', cat: 'rare' },
+            { char: '❽', cat: 'rare' },
+            { char: '❾', cat: 'rare' },
+            { char: '❿', cat: 'rare' },
+            { char: '➹', cat: 'ff' },
+            { char: '➷', cat: 'ff' },
+            { char: '➸', cat: 'ff' },
+            { char: '➹', cat: 'ff' }
+        ];
+
+        // إضافة الرموز الخام من طلبك
+        const rawSymbols = `# $ % & ✟ Ϫ ✲ ϱ Ќ Ш Ю ж з й м š ф ю ѽ ҈ ҉ ⸗ 『 』 【 】 〓 〖 〗 あ ぃ し の べ ツ ㄨ ש ؀ ؁ ؂ ؃ ؎ ٭ ۰ ۵ ܔ 乀 ઇ 灬 இ ஐ ஓ ண ஸ ஹ ௌ ௮ ı ೋ ะ ๏ ๑ Ɣ ƕ ƪ ꜘ ღ ᆻ ǎ ȴ ɵ ɷ ɾ ɿ ﬡ ︶ ︹ ︺ ﺴ ﻬ ＠ ｡ ￡ ￼ ʬ ʭ ʺ ʻ ʼ ʽ ʾ ʿ ˀ ˂ ˃ ˄ ˅ ˇ ˉ ˌ ˍ ˎ ˏ ː ˔ ˕ ˘ ˙ ˚ ˛ ˜ ˝ ˞ ˟ ˠ ˱ ˲ ˳ ˴ ˵ ˶ ˷ ˸ ˹ ˺ ˻ ˼ ˽ ˾ ˿ ̀ ́ ̃ ̅ ̈ ̉ ̊ ắ ̚ ̡ ̢ ̣ ῏ ̮ ̲ ̵ ‧ ※ ‿ ̺ ̻ ⁞ ̿ ̀ ́ ₡ ̓ ₪ ̈́ ͇ ͊ ͋ ͌ ℅ ͍ № ͏ ͐ ͚ ← ↑ → ↓ ͜ ͝ ͠ ͡ ∈ ∏ ∑ √ ∞ ∮ ≈ ≡ ≤ ≥ ͼ ͽ ; ⌒ ΄ ΅ Δ Θ Ξ Ψ Ω ━ ┏ ┓ ┗ ┛ ε ┣ ┫ ╃ ╄ ╋ ═ ║ ╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ▀ ▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ▌ ░ ▒ ▓ ς ■ □ ▣ ▤ ▥ ▦ ▧ ▨ ▩ ▬ ▲ △ ► ◄ ◆ ◇ ◈ ◊ ○ ◎ ● ◐ ◑ ◕ ◘ ◙ ◢ ◣ ω ◤ ◥ ◦ ★ ☆ ☇ ☏ ☜ ☞ ☻ ☼ ♀ ♂ ♡ ϖ ♧ ♩ ♪ ♫ ♬ ♭ ϗ Ϡ Ϣ ✎ Æ Å ‡ Δ Γ Ω Π Σ Ü Ξ æ α ∧ ∠ ≈ β • ∩ ¢ ♡ ↵ ∪ ¤ ⇓ † ↓ ° ▀ ∅ ε ≡ η ð € ∃ ∀ ½ ⅓ ¼ ¾ ⁄ > ⇔ … í ¡ ℑ ∞ ¿ λ « ← ⌈ “ ⌊ ∗ ◊ ‹ ‘ < ¯ — · − ∇ – ∋ ∉ ⊄ ñ ò ‾ ⊕ ∨ ª º ø ⊗ ¶ ∂ ‰ ⊥ ± ′ ∏ ∝ ψ " ⇒ √ » → ⌉ ” ℜ ⌋ › ’ ‚ ⋅ ∼ ⊂ ⊆ ∑ ⊃ ⊇ ∴ ∷ þ × ⇑ ↑ ¨ ℘ ξ Ж Ƹ̵̡Ӝ̵̨̄Ʒ`;
+
+        const rawArr = rawSymbols.split(' ').filter(s => s !== '');
+        rawArr.forEach(s => symbolsData.push({ char: s, cat: 'rare' }));
+
+        const grid = document.getElementById('symbolsGrid');
+        const toast = document.getElementById('toast');
+
+        function renderSymbols(filter = 'all') {
+            grid.innerHTML = '';
+            symbolsData.forEach(item => {
+                if (filter === 'all' || item.cat.includes(filter)) {
+                    const card = document.createElement('div');
+                    card.className = 'symbol-card rounded-xl shadow-sm';
+                    card.innerText = item.char;
+                    card.onclick = () => copySymbol(item.char);
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        function copySymbol(char) {
+            navigator.clipboard.writeText(char);
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        }
+
+        function filterCategory(cat) {
+            renderSymbols(cat);
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.innerText.includes(getCatName(cat))) btn.classList.add('active');
+            });
+        }
+
+        function getCatName(cat) {
+            const names = { 'all': 'الكل', 'ff': 'فري فاير', 'popular': 'الأكثر', 'hearts': 'قلوب', 'stars': 'نجوم', 'islamic': 'إسلامية' };
+            return names[cat] || 'الكل';
+        }
+
+        renderSymbols();
+    </script>
+</body>
+</html>
